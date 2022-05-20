@@ -13,29 +13,18 @@
         </div>
 
         <div class="modal-body">
-          <p>아파트명: {{ aptDealList.aptName }}</p>
-          <p>
-            주소:{{ aptDealList.sidoName }}{{ aptDealList.gugunName
-            }}{{ aptDealList.dongName }}
-          </p>
-          <p>건축년도:{{ aptDealList.buildYear }}</p>
-          <p>거래건수: 총 {{ aptDealList.length }}건</p>
-          <table class="table mt-2 table-hover">
-            <thead>
-              <th>면적</th>
-              <th>거래금액</th>
-              <th>거래일</th>
-            </thead>
-            <tbody>
-              <tr v-for="(item, index) in aptDealList" :key="index">
-                <td>{{ item.area }}m²</td>
-                <td>{{ item.dealAmount }},000원</td>
-                <td>
-                  {{ item.dealYear }}/{{ item.dealMonth }}/{{ item.dealDay }}
-                </td>
-              </tr>
-            </tbody>
-          </table>
+          <div class="row">
+            <div class="col"><apt-info></apt-info></div>
+            <div class="col"><price-per-area></price-per-area></div>
+          </div>
+          <div class="row">
+            <div class="col"><market></market></div>
+            <div class="col"></div>
+          </div>
+          <div class="row">
+            <div class="col"><history></history></div>
+            <div class="col"><reply></reply></div>
+          </div>
         </div>
 
         <div class="modal-footer">
@@ -49,7 +38,19 @@
 </template>
 
 <script>
+import AptInfo from "@/components/apt/AptInfo.vue";
+import History from "@/components/apt/History.vue";
+import Reply from "@/components/reply/Reply.vue";
+import PricePerArea from "@/components/apt/PricePerArea.vue";
+import Market from "@/components/apt/Market.vue";
 export default {
+  components: {
+    AptInfo,
+    History,
+    Reply,
+    PricePerArea,
+    Market,
+  },
   props: ["aptDealList"],
   data() {
     return {

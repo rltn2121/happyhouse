@@ -1,11 +1,8 @@
 <template>
   <div id="app">
-    <!-- <Login></Login>
-    <Home></Home> -->
-
     <nav-bar />
-    <router-view></router-view>
-    <apt-detail-modal-test></apt-detail-modal-test>
+    <!-- <router-view></router-view> -->
+    <!-- <home></home> -->
   </div>
 </template>
 
@@ -15,7 +12,8 @@ import Home from "./components/Home.vue";
 import Market from "./components/apt/Market.vue";
 import AptDetailModalTest from "./components/test/AptDetailModalTest.vue";
 import NavBar from "./components/NavBar.vue";
-
+import AptDetailModal from "./components/modals/AptDetailModal.vue";
+import MyMoney from "./components/MyMoney.vue";
 export default {
   name: "App",
   components: {
@@ -23,7 +21,9 @@ export default {
     Home,
     Market,
     AptDetailModalTest,
+    AptDetailModal,
     NavBar,
+    MyMoney,
   },
 };
 </script>

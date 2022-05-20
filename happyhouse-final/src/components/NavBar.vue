@@ -181,15 +181,8 @@
       </div>
       <div id="layoutSidenav_content">
         <main>
-          <div class="container-fluid px-4">
-            <div style="height: 100vh"></div>
-            <div class="card mb-4">
-              <div class="card-body">
-                When scrolling, the navigation stays at the top of the page.
-                This is the end of the static navigation demo.
-              </div>
-            </div>
-          </div>
+          <!-- <home></home> -->
+          <apt-detail-modal-test></apt-detail-modal-test>
         </main>
         <footer class="py-4 bg-light mt-auto">
           <div class="container-fluid px-4">
@@ -211,7 +204,12 @@
 </template>
 
 <script>
-export default {};
+import Home from "./Home.vue";
+import Login from "./Login.vue";
+import AptDetailModalTest from "./test/AptDetailModalTest.vue";
+export default {
+  components: { Home, Login, AptDetailModalTest },
+};
 </script>
 
 <style></style>
