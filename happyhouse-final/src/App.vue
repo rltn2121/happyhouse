@@ -6,8 +6,8 @@
 </template>
 
 <script>
-import TopNavBar from "@/components/TopNavBar.vue";
-import MainContent from "@/components/MainContent.vue";
+import TopNavBar from "@/components/nav/TopNavBar.vue";
+import MainContent from "@/components/nav/MainContent.vue";
 export default {
   name: "App",
   components: {
