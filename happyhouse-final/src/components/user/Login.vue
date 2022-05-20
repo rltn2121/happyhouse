@@ -28,7 +28,8 @@
     </div>
     <div>
       <button @click="login" class="btn btn-primary">로그인</button>
-      <a href="/register" class="btn btn-success">회원가입</a>
+      <button @click="register" class="btn btn-success">회원가입</button>
+      <!-- <a href="/register" class="btn btn-success">회원가입</a> -->
       <!-- eclipse 와 다른 부분 -->
     </div>
   </div>
@@ -68,6 +69,10 @@ export default {
           this.$alertify.error("서버 오류");
         }
       }
+    },
+
+    register() {
+      this.$router.push("/register");
     },
   },
 };

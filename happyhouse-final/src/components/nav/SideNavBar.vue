@@ -33,10 +33,18 @@
           data-bs-parent="#sidenavAccordion"
         >
           <nav class="sb-sidenav-menu-nested nav">
-            <a class="nav-link" href="layout-static.html">Static Navigation</a>
-            <a class="nav-link" href="layout-sidenav-light.html"
-              >Light Sidenav</a
-            >
+            <router-link to="/apt-search" class="nav-link">
+              <div class="sb-nav-link-icon">
+                <i class="fas fa-tachometer-alt"></i>
+              </div>
+              아파트 검색
+            </router-link>
+            <router-link to="/apt-trade" class="nav-link">
+              <div class="sb-nav-link-icon">
+                <i class="fas fa-tachometer-alt"></i>
+              </div>
+              부동산 매매
+            </router-link>
           </nav>
         </div>
         <a
@@ -65,64 +73,26 @@
             class="sb-sidenav-menu-nested nav accordion"
             id="sidenavAccordionPages"
           >
-            <a
-              class="nav-link collapsed"
-              href="#"
-              data-bs-toggle="collapse"
-              data-bs-target="#pagesCollapseAuth"
-              aria-expanded="false"
-              aria-controls="pagesCollapseAuth"
-            >
-              Authentication
-              <div class="sb-sidenav-collapse-arrow">
-                <i class="fas fa-angle-down"></i>
+            <router-link to="/my-transaction" class="nav-link">
+              <div class="sb-nav-link-icon">
+                <i class="fas fa-tachometer-alt"></i>
               </div>
-            </a>
-            <div
-              class="collapse"
-              id="pagesCollapseAuth"
-              aria-labelledby="headingOne"
-              data-bs-parent="#sidenavAccordionPages"
-            >
-              <nav class="sb-sidenav-menu-nested nav">
-                <a class="nav-link" href="login.html">Login</a>
-                <a class="nav-link" href="register.html">Register</a>
-                <a class="nav-link" href="password.html">Forgot Password</a>
-              </nav>
-            </div>
-            <a
-              class="nav-link collapsed"
-              href="#"
-              data-bs-toggle="collapse"
-              data-bs-target="#pagesCollapseError"
-              aria-expanded="false"
-              aria-controls="pagesCollapseError"
-            >
-              Error
-              <div class="sb-sidenav-collapse-arrow">
-                <i class="fas fa-angle-down"></i>
+              내 거래내역
+            </router-link>
+            <router-link to="/banking" class="nav-link">
+              <div class="sb-nav-link-icon">
+                <i class="fas fa-tachometer-alt"></i>
               </div>
-            </a>
-            <div
-              class="collapse"
-              id="pagesCollapseError"
-              aria-labelledby="headingOne"
-              data-bs-parent="#sidenavAccordionPages"
-            >
-              <nav class="sb-sidenav-menu-nested nav">
-                <a class="nav-link" href="401.html">401 Page</a>
-                <a class="nav-link" href="404.html">404 Page</a>
-                <a class="nav-link" href="500.html">500 Page</a>
-              </nav>
-            </div>
+              대출/상환/예금
+            </router-link>
           </nav>
         </div>
         <div class="sb-sidenav-menu-heading">Addons</div>
         <router-link to="/board" class="nav-link">
           <div class="sb-nav-link-icon">
-            <i class="fas fa-chart-area"></i>
+            <i class="fas fa-tachometer-alt"></i>
           </div>
-          Community
+          커뮤니티
         </router-link>
         <router-link to="/introduce" class="nav-link">
           <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
