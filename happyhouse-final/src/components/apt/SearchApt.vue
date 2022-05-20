@@ -54,7 +54,7 @@
 
           <label class="mr-2 ml-3" for="favoriteDong">관심지역 추가 </label>
           <img
-            src="../assets/empty_heart.png"
+            src="@/assets/empty_heart.png"
             id="favoriteDong"
             alt="Logo"
             style="width: 24px; height: 24px; border-radius: 50%"
@@ -79,7 +79,7 @@
                     {{ item.dongName }} {{ item.jibun }}
                   </div>
                   <div class="col-md-4">
-                    <img src="../assets/marker.png" alt="" />
+                    <img src="@/assets/marker.png" alt="" />
                     {{ item.dist.toFixed(2) }}km
                   </div>
                 </div>

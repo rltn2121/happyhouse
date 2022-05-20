@@ -10,8 +10,6 @@
       <!-- 컨텐츠 -->
       <main class="my-3">
         <router-view></router-view>
-        <home></home>
-        <apt-detail-modal-test></apt-detail-modal-test>
       </main>
       <!-- 푸터 -->
       <footer-nav-bar></footer-nav-bar>
@@ -20,9 +18,9 @@
 </template>
 
 <script>
-import SideNavBar from "./SideNavBar.vue";
-import FooterNavBar from "./FooterNavBar.vue";
-import Home from "./Home.vue";
+import SideNavBar from "@/components/nav/SideNavBar.vue";
+import FooterNavBar from "@/components/nav/FooterNavBar.vue";
+import Home from "@/components/apt/Home.vue";
 export default {
   components: {
     SideNavBar,
