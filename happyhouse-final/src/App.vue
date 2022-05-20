@@ -1,29 +1,18 @@
 <template>
   <div id="app">
-    <nav-bar />
-    <!-- <router-view></router-view> -->
-    <!-- <home></home> -->
+    <top-nav-bar></top-nav-bar>
+    <main-content></main-content>
   </div>
 </template>
 
 <script>
-import Login from "./components/Login.vue";
-import Home from "./components/Home.vue";
-import Market from "./components/apt/Market.vue";
-import AptDetailModalTest from "./components/test/AptDetailModalTest.vue";
-import NavBar from "./components/NavBar.vue";
-import AptDetailModal from "./components/modals/AptDetailModal.vue";
-import MyMoney from "./components/MyMoney.vue";
+import TopNavBar from "@/components/TopNavBar.vue";
+import MainContent from "@/components/MainContent.vue";
 export default {
   name: "App",
   components: {
-    Login,
-    Home,
-    Market,
-    AptDetailModalTest,
-    AptDetailModal,
-    NavBar,
-    MyMoney,
+    TopNavBar,
+    MainContent,
   },
 };
 </script>
