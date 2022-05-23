@@ -1,6 +1,6 @@
 <template>
   <div class="modal" tabindex="-1" id="aptDetailModal">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title">아파트 거래 정보</h5>
