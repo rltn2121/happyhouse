@@ -112,28 +112,34 @@ export default {
       gugunCode: "",
       dongCode: "",
       aptList: "",
-      aptDealList: "",
+      aptDealList: [],
 
       aptDetailModal: null,
     };
   },
 
   async created() {
-    console.log("created called");
-
     let { data } = await http.get("/map/sido");
-    console.log(data);
+    console.log("128 line:" + data);
     this.sidoList = data;
   },
+
   methods: {
     async getGugun(sidoCode) {
       const params = { sido: sidoCode };
-      let { data } = await http.get("/map/gugun/", { params });
+
+      let { data } = await http.get("/map/gugun", {
+        params,
+      });
+
       this.gugunList = data;
     },
     async getDong(gugunCode) {
       const params = { gugun: gugunCode };
-      let { data } = await http.get("/map/dong/", { params });
+
+      let { data } = await http.get("/map/dong/", {
+        params,
+      });
       this.dongList = data;
     },
     async getApt(dongCode) {
@@ -151,9 +157,12 @@ export default {
 
     async getAptDetail(aptCode) {
       try {
-        let { data } = await http.get("/map/apts/" + aptCode);
+        let { data } = await http.get("/map/apt/" + aptCode);
         this.aptDealList = data;
-        console.log(data);
+        // console.log(data);
+        // console.log(this.aptDealList);
+        // console.log(aptDealList);
+
         this.aptDetailModal.show();
       } catch (error) {
         console.log("BoardMainVue: error : ");

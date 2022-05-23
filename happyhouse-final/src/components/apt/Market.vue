@@ -10,34 +10,16 @@
             <th>구매</th>
           </thead>
           <tbody>
-            <tr>
-              <td>0.00m²</td>
-              <td>100,000원</td>
+            <tr v-for="(item, index) in budongsanMarketList" :key="index">
+              <td>{{ item.area }}</td>
+              <td>{{ item.price }}</td>
               <td>
                 <button type="button" class="btn btn-primary">구매하기</button>
               </td>
             </tr>
-            <tr>
-              <td>0.00m²</td>
-              <td>100,000원</td>
-              <td>
-                <button type="button" class="btn btn-primary">구매하기</button>
-              </td>
-            </tr>
-            <tr>
-              <td>0.00m²</td>
-              <td>100,000원</td>
-              <td>
-                <button type="button" class="btn btn-primary">구매하기</button>
-              </td>
-            </tr>
-            <tr>
-              <td>0.00m²</td>
-              <td>100,000원</td>
-              <td>
-                <button type="button" class="btn btn-primary">구매하기</button>
-              </td>
-            </tr>
+            <div style="display: none">
+              {{ aptDealList.aptInfoDto.aptName }}
+            </div>
           </tbody>
         </table>
       </div>
@@ -46,7 +28,21 @@
 </template>
 
 <script>
-export default {};
+export default {
+  props: ["aptDealList"],
+  data() {
+    return {
+      budongsanMarketList: [],
+      name: "",
+    };
+  },
+  created() {},
+  updated() {
+    // console.log("aptInfo.vue updated");
+    let { budongsanMarketList } = this.aptDealList;
+    this.budongsanMarketList = budongsanMarketList;
+  },
+};
 </script>
 
 <style></style>

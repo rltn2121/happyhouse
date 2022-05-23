@@ -11,31 +11,22 @@
             <th>작성일자</th>
           </thead>
           <tbody>
-            <tr>
-              <td>홍길동</td>
-              <td>넘비싸요</td>
-              <td>★★★☆☆</td>
-              <td>2022/05/20</td>
+            <tr v-for="(item, index) in replyList" :key="index">
+              <td>{{ item.content }}</td>
+              <td>{{ item.userSeq }}</td>
+              <td> dd              </td>
+              <td> dd               </td>
             </tr>
             <tr>
-              <td>홍길동</td>
-              <td>넘비싸요</td>
-              <td>★★★☆☆</td>
-              <td>2022/05/20</td>
-            </tr>
-            <tr>
-              <td>홍길동</td>
-              <td>넘비싸요</td>
-              <td>★★★☆☆</td>
-              <td>2022/05/20</td>
-            </tr>
-            <tr>
-              <td>홍길동</td>
-              <td>넘비싸요</td>
-              <td>★★★☆☆</td>
-              <td>2022/05/20</td>
-            </tr>
+              <td>dd </td>
+              <td>dd</td>
+              <td> dd</td>
+              <td>dd </td>
+              </tr>
           </tbody>
+            <!-- <div style="display: none">
+              {{ aptDealList.aptInfoDto.aptName }}
+            </div> -->
         </table>
       </div>
     </div>
@@ -43,12 +34,20 @@
 </template>
 
 <script>
-export default {};
-</script>
-
+export default {
+  props: ["aptDealList"],
+  data() {
+    return {
+      replyList: [],
+      name: "",
+    };
+  },
+  created() {},
+  updated() {
+    // console.log("aptInfo.vue updated");
+    let { replyList } = this.aptDealList;
+    this.replyList = replyList;
+  },
+};
 <style>
-@import "https://cdn.jsdelivr.net/npm/simple-datatables@latest";
-@import "https://cdn.jsdelivr.net/npm/simple-datatables@latest";
-@import "https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js";
-@import "https://cdn.jsdelivr.net/npm/simple-datatables@latest";
 </style>

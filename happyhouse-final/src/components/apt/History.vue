@@ -10,26 +10,16 @@
             <th>거래일</th>
           </thead>
           <tbody>
-            <tr>
-              <td>0.00m²</td>
-              <td>100,000원</td>
-              <td>2022/05/20</td>
+            <tr v-for="(item, index) in dealInfoList" :key="index">
+              <td>{{ item.area }}m²</td>
+              <td>{{ item.dealAmount }}만원</td>
+              <td>
+                {{ item.dealYear }}/{{ item.dealMonth }}/{{ item.dealDay }}
+              </td>
             </tr>
-            <tr>
-              <td>0.00m²</td>
-              <td>100,000원</td>
-              <td>2022/05/20</td>
-            </tr>
-            <tr>
-              <td>0.00m²</td>
-              <td>100,000원</td>
-              <td>2022/05/20</td>
-            </tr>
-            <tr>
-              <td>0.00m²</td>
-              <td>100,000원</td>
-              <td>2022/05/20</td>
-            </tr>
+            <div style="display: none">
+              {{ aptDealList.aptInfoDto.aptName }}
+            </div>
           </tbody>
         </table>
       </div>
@@ -38,7 +28,21 @@
 </template>
 
 <script>
-export default {};
+export default {
+  props: ["aptDealList"],
+  data() {
+    return {
+      dealInfoList: [],
+      name: "",
+    };
+  },
+  created() {},
+  updated() {
+    // console.log("aptInfo.vue updated");
+    let { dealInfoList } = this.aptDealList;
+    this.dealInfoList = dealInfoList;
+  },
+};
 </script>
 
 <style></style>
