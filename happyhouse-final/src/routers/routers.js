@@ -14,56 +14,66 @@ import Login from "@/components/user/Login.vue";
 import Register from "@/components/user/Register.vue";
 import AptTrade from "@/components/apt/AptTrade.vue";
 export default new VueRouter({
-  routes: [
-    {
-      path: "/",
-      name: "Home",
-      component: Home,
-    },
-    {
-      name: "User",
-      path: "/user",
-      component: User,
-    },
-    {
-      name: "Board",
-      path: "/board",
-      component: Board,
-    },
-    {
-      name: "Introduce",
-      path: "/introduce",
-      component: Introduce,
-    },
-    {
-      name: "Home",
-      path: "/apt-search",
-      component: Home,
-    },
-    {
-      name: "MyTransaction",
-      path: "/my-transaction",
-      component: MyTransaction,
-    },
-    {
-      name: "Banking",
-      path: "/banking",
-      component: Banking,
-    },
-    {
-      name: "Login",
-      path: "/login",
-      component: Login,
-    },
-    {
-      name: "Register",
-      path: "/register",
-      component: Register,
-    },
-    {
-      name: "AptTrade",
-      path: "/apt-trade",
-      component: AptTrade,
-    },
-  ],
+    routes: [
+        {
+            path: "/",
+            name: "Home",
+            component: Home,
+        },
+        {
+            name: "User",
+            path: "/test",
+            component: User,
+        },
+        {
+            name: "Board",
+            path: "/board",
+            component: Board,
+        },
+        {
+            name: "Introduce",
+            path: "/introduce",
+            component: Introduce,
+        },
+        {
+            name: "Home",
+            path: "/apt-search",
+            component: Home,
+        },
+        {
+            name: "MyTransaction",
+            path: "/my-transaction",
+            component: MyTransaction,
+        },
+        {
+            name: "Banking",
+            path: "/banking",
+            component: Banking,
+        },
+        {
+            name: "Login",
+            path: "/login",
+            component: Login,
+        },
+        {
+            name: "Register",
+            path: "/register",
+            component: Register,
+        },
+        {
+            name: "AptTrade",
+            path: "/apt-trade",
+            component: AptTrade,
+        },
+        {
+            path: "/user",
+            name: "user",
+            component: () => import("@/views/MemberView.vue"),
+        },
+        {
+            path: "/user/signin",
+            name: "signIn",
+            component: () => import("@/components/user/MemberLogin.vue"),
+        },
+    ],
 });
