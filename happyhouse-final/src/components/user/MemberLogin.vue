@@ -1,37 +1,42 @@
 <template>
     <div class="container">
-        <div class="mt-5 mb-3 d-flex justify-content-center">
-            <h1 class="display-4">삐따기 세상</h1>
+        <div class="card-header">
+            <div class="mt-5 mb-3 d-flex justify-content-center">
+                <h1 class="display-4">LOGIN</h1>
+            </div>
         </div>
-        <div class="mb-3">
-            <h2>Login</h2>
-        </div>
-        <div class="mb-3">
-            <label for="userid" class="form-label">Email</label>
-            <input
-                id="userid"
-                v-model="user.userid"
-                required
-                placeholder="아이디 입력...."
-                @keyup.enter="confirm"
-            />
-        </div>
-        <div class="mb-3">
-            <label for="userpwd" class="form-label">제목</label>
-            <input
-                type="password"
-                id="userpwd"
-                v-model="user.userpwd"
-                required
-                placeholder="비밀번호 입력...."
-                @keyup.enter="confirm"
-            />
-        </div>
-        <div>
-            <button type="button" variant="primary" class="m-1" @click="confirm">로그인</button>
-            <button type="button" variant="success" class="m-1" @click="movePage">회원가입</button>
-            <!-- <a href="/register" class="btn btn-success">회원가입</a> -->
-            <!-- eclipse 와 다른 부분 -->
+        <div class="card-body">
+            <form>
+                <div class="form-floating mb-3">
+                    <input
+                        class="form-control"
+                        id="userid"
+                        v-model="user.userid"
+                        required
+                        placeholder="아이디 입력...."
+                        @keyup.enter="confirm"
+                    />
+                    <label for="userid">Email address</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input
+                        class="form-control"
+                        type="password"
+                        id="userpwd"
+                        v-model="user.userpwd"
+                        required
+                        placeholder="비밀번호 입력...."
+                        @keyup.enter="confirm"
+                    />
+                    <label for="userpwd">Password</label>
+                </div>
+                <div>
+                    <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
+                        <a class="small" @click="movePage">회원가입</a>
+                        <a class="btn btn-primary" @click="confirm">Login</a>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
 </template>

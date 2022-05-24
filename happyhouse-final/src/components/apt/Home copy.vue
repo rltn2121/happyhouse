@@ -1,8 +1,12 @@
 <template>
     <div class="container">
-        <div class="col">
-            <kakao-map />
-            <search-apt />
+        <div class="row">
+            <div class="col-4">
+                <search-apt />
+            </div>
+            <div class="col-8">
+                <kakao-map />
+            </div>
         </div>
     </div>
 </template>
