@@ -6,12 +6,14 @@
 
       <my-favorite-budongsan></my-favorite-budongsan>
     </div>
+    <board-main>
   </div>
 </template>
 
 <script>
 import MyMoney from "@/components/user/MyMoney.vue";
 import MyFavoriteBudongsan from "@/components/user/MyFavoriteBudongsan.vue";
+import BoardMain from "@/components/board/BoardMain.vue";
 export default {
   components: {
     MyMoney,
