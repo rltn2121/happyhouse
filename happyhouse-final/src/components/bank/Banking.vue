@@ -79,20 +79,36 @@ export default {
             }
         },
         async loanCalc() {
-            console.log("loan");
+            console.log("loan start");
 
             let decode_token = jwt_decode(sessionStorage.getItem("access-token"));
             let userSeq = decode_token.user_seq;
             console.log(userSeq);
+
+            let loan = this.price;
+            if (this.work == "상환") {
+                loan = -loan;
+            }
+
             let obj = {
                 userSeq,
                 bankId: this.bankId,
-                loan: "100",
+                loan,
             };
+
+            console.log(this.work);
+            console.log(obj);
+
             try {
-                let response = await http.put("/banks/loan", obj);
-                let { data } = response;
+                let { data } = await http.put("/banks/loan", obj);
                 console.log(data);
+                if (data == "ERR01") {
+                    alert("대출한도초과!");
+                } else if (data == "ERR02") {
+                    alert("현금부족!");
+                } else if (data == "ERR03") {
+                    alert("상환금이 더 많습니다");
+                }
             } catch (error) {
                 console.error(error);
             }
@@ -103,20 +119,36 @@ export default {
             let decode_token = jwt_decode(sessionStorage.getItem("access-token"));
             let userSeq = decode_token.user_seq;
             console.log(userSeq);
+
+            let deposit = this.price;
+            if (this.work == "출금") {
+                deposit = -deposit;
+            }
+
             let obj = {
                 userSeq,
                 bankId: this.bankId,
-                deposit: "100",
+                deposit,
             };
+
+            console.log(this.work);
+            console.log(obj);
+
             try {
                 let response = await http.put("/banks/deposit", obj);
                 let { data } = response;
                 console.log(data);
+                if (data == "ERR02") {
+                    alert("현금부족!");
+                } else if (data == "ERR04") {
+                    alert("출금금액부족!");
+                }
             } catch (error) {
                 console.error(error);
             }
         },
     },
+
     created() {
         this.assetList();
     },

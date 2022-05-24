@@ -1,8 +1,12 @@
 <template>
     <div class="container">
-        은행업무
         <div class="card">
-            <div class="card-header">내 거래내역</div>
+            <div class="card-header">
+                <div style="display: inline-block; font-weight: bold">내 거래내역</div>
+                <div style="display: inline-block; font-weight: bold; float: right">
+                    MY CASH : {{ asset.cash }}
+                </div>
+            </div>
             <div class="card-body">
                 <table class="table">
                     <thead class="thead-dark">
@@ -13,12 +17,22 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="(board, index) in listGetters" :key="index">
-                            <td>{{ board.boardId }}</td>
-                            <td>{{ board.title }}</td>
-                            <td>{{ board.userName }}</td>
+                        <tr v-for="(bank, index) in list" :key="index">
+                            <td>{{ bank.name }}</td>
+                            <td>{{ bank.loan }}</td>
+                            <td>{{ bank.deposit }}</td>
                         </tr>
                     </tbody>
+                </table>
+            </div>
+            <div class="card-footer">
+                <table class="table">
+                    <thead class="thead">
+                        <tr>
+                            <th scope="">총 예금 : {{ asset.loan }}만원</th>
+                            <th scope="">총 적금 : {{ asset.deposit }}만원</th>
+                        </tr>
+                    </thead>
                 </table>
             </div>
         </div>
@@ -26,27 +40,58 @@
 </template>
 
 <script>
+import http from "@/common/axios.js";
+import jwt_decode from "jwt-decode";
+
 export default {
     name: "MyTransaction",
     components: {},
     data() {
-        return {};
-    },
-    computed: {
-        // gttters 이용
-        listGetters() {
-            return this.$store.getters.getBoardList; // no getBoardList()
-        },
+        return {
+            list: [],
+            asset: {},
+        };
     },
     methods: {
-        boardList() {
-            this.$store.dispatch("boardList");
+        async boardList() {
+            let decode_token = jwt_decode(sessionStorage.getItem("access-token"));
+            let userSeq = decode_token.user_seq;
+            console.log(userSeq);
+
+            try {
+                let response = await http.get("banks/account/" + userSeq); // params: params : shorthand property
+                let { data } = response;
+                console.log(data);
+                this.list = data;
+            } catch (error) {
+                console.error(error);
+            }
+        },
+        async assetList() {
+            let decode_token = jwt_decode(sessionStorage.getItem("access-token"));
+            let userSeq = decode_token.user_seq;
+            console.log(userSeq);
+
+            try {
+                let response = await http.get("banks/assets/" + userSeq); // params: params : shorthand property
+                let { data } = response;
+                console.log(data);
+                this.asset = data;
+            } catch (error) {
+                console.error(error);
+            }
         },
     },
     created() {
         this.boardList();
+        this.assetList();
     },
 };
 </script>
 
-<style></style>
+<style>
+table {
+    margin: aut;
+    text-align: center;
+}
+</style>
