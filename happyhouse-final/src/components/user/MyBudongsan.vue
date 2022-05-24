@@ -1,22 +1,84 @@
 <template>
-  <div class="container-fluid">
-    <h1 class="mt-4 font-weight-bold">아파트 검색</h1>
-    <div class="bg-primary"></div>
-    <div class="row">
-      <div class="col-5"><search-apt /></div>
-
-      <div class="col-7"><kakao-map /></div>
+  <div class="card mb-4">
+    <div class="card-header">
+      <i class="fas fa-chart-bar me-1"></i>
+      내 부동산
     </div>
+    <div class="card-body">
+      <table class="table table-hover">
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col">아파트이름</th>
+            <th scope="col">주소</th>
+            <th scope="col">전용면적</th>
+            <th scope="col">층</th>
+            <th scope="col">가격</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            v-for="(item, index) in aptList"
+            :key="index"
+            @click="getAptDetail(item.aptCode)"
+            style="cursor: pointer"
+          >
+            <td>{{ item.aptName }}</td>
+            <td>{{ item.address }}</td>
+            <td>{{ item.area }}m²</td>
+            <td>{{ item.floor }}층</td>
+            <td>{{ item.price }}만원</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <apt-detail-modal :aptDealList="aptDealList"></apt-detail-modal>
   </div>
 </template>
 
 <script>
-import KakaoMap from "./KakaoMap.vue";
-import SearchApt from "./SearchApt.vue";
+import http from "@/common/axios.js";
+import AptDetailModal from "@/components/modals/AptDetailModal.vue";
+import { Modal } from "bootstrap";
+import jwt_decode from "jwt-decode";
 export default {
-  components: {
-    KakaoMap,
-    SearchApt,
+  name: "SearchApt",
+  components: { AptDetailModal },
+  data() {
+    return {
+      aptList: [],
+      aptDealList: [],
+    };
+  },
+
+  async created() {
+    let decode_token = jwt_decode(sessionStorage.getItem("access-token"));
+    let userSeq = decode_token.user_seq;
+
+    let { data } = await http.get("/budongsans/" + userSeq);
+    console.log(data);
+    this.aptList = data;
+  },
+
+  methods: {
+    async getAptDetail(aptCode) {
+      try {
+        let { data } = await http.get("/map/apt/" + aptCode);
+        this.aptDealList = data;
+        // console.log(data);
+        // console.log(this.aptDealList);
+        // console.log(aptDealList);
+
+        this.aptDetailModal.show();
+      } catch (error) {
+        console.log("BoardMainVue: error : ");
+        console.log(error);
+      }
+    },
+  },
+  mounted() {
+    console.log("mounted");
+    this.aptDetailModal = new Modal(document.querySelector("#aptDetailModal"));
+    // console.log(this.aptDetailModal);
   },
 };
 </script>
@@ -137,3 +199,4 @@ ul {
   background-position: 0 -20px;
 }
 </style>
+g

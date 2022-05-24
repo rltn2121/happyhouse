@@ -7,7 +7,7 @@
             <i class="fas fa-chart-pie me-1"></i>
             내 자산 관리
           </div>
-          <div class="col">전체 자산: {{ total }}만원</div>
+          <div class="col text-right"><b>전체 자산:</b> {{ total }}만원</div>
         </div>
       </div>
       <div class="card-body">

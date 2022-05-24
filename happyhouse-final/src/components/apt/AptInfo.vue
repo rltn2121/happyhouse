@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container-fluid">
     <div class="card mb-4">
       <div class="card-header"><b>아파트 정보</b></div>
       <div class="card-body">

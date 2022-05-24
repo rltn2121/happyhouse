@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container-fluid">
     <h1 class="mt-4 font-weight-bold">부동산 매매</h1>
     <div id="index_section ">
       <div class="card mt-4 left" style="min-height: 850px">
@@ -113,6 +113,7 @@
 import http from "@/common/axios.js";
 import AptDetailModal from "@/components/modals/AptDetailModal.vue";
 import { Modal } from "bootstrap";
+import jwt_decode from "jwt-decode";
 export default {
   name: "SearchApt",
   components: { AptDetailModal },

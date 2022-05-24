@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="container">
+    <div class="container-fluid">
       <h1 class="mt-4 font-weight-bold">은행 업무</h1>
       <div class="card mt-4">
         <div class="card-header">
@@ -42,7 +42,7 @@
       </div>
     </div>
 
-    <div class="container mt-5">
+    <div class="container-fluid mt-5">
       <div class="card">
         <div class="card-header">
           <div style="display: inline-block; font-weight: bold">
