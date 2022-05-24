@@ -16,6 +16,7 @@ export default {
   components: {
     MyMoney,
     MyFavoriteBudongsan,
+    BoardMain,
   },
 };
 </script>
