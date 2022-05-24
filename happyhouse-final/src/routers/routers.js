@@ -12,7 +12,8 @@ import Banking from "@/components/bank/Banking.vue";
 import MyTransaction from "@/components/bank/MyTransaction.vue";
 import Register from "@/components/user/Register.vue";
 import AptTrade from "@/components/apt/AptTrade.vue";
-
+import MainPage from "@/components/MainPage.vue";
+import MyMoney from "@/components/user/MyMoney.vue";
 // https://router.vuejs.org/kr/guide/advanced/navigation-guards.html
 const onlyAuthUser = async (to, from, next) => {
   // console.log(store);
@@ -87,6 +88,15 @@ export default new VueRouter({
       path: "/user/signin",
       name: "signIn",
       component: () => import("@/components/user/MemberLogin.vue"),
+    },
+    {
+      path: "/main",
+      name: "Main",
+      component: MainPage,
+    },
+    {
+      path: "/my-money",
+      component: MyMoney,
     },
   ],
 });

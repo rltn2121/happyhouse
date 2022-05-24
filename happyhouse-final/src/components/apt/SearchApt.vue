@@ -1,60 +1,57 @@
 <template>
     <div id="index_section">
-        <div class="card mt-1 left" style="">
+        <div class="card mt-3 left" style="min-height: 850px">
+            <div class="card-header form-inline">
+                <label class="mr-2" for="sido"></label>
+                <select
+                    class="form-control"
+                    style="width: 137px"
+                    id="sido"
+                    v-model="sidoCode"
+                    @change="getGugun(sidoCode)"
+                >
+                    <option value="" selected>시/도</option>
+                    <option v-for="(item, index) in sidoList" :key="index" :value="item.sidoCode">
+                        {{ item.sidoName }}
+                    </option>
+                </select>
+                <label class="mr-2 ml-3" for="gugun"></label>
+                <select
+                    class="form-control"
+                    style="width: 137px"
+                    id="gugun"
+                    v-model="gugunCode"
+                    @change="getDong(gugunCode)"
+                >
+                    <option value="" selected>구/군</option>
+                    <option v-for="(item, index) in gugunList" :key="index" :value="item.gugunCode">
+                        {{ item.gugunName }}
+                    </option>
+                </select>
+                <label class="mr-2 ml-3" for="dong"></label>
+                <select
+                    class="form-control"
+                    style="width: 137px"
+                    v-model="dongCode"
+                    @change="getApt(dongCode)"
+                >
+                    <option value="">읍/면/동</option>
+                    <option v-for="(item, index) in dongList" :key="index" :value="item.dongCode">
+                        {{ item.dongName }}
+                    </option>
+                </select>
+            </div>
             <div class="card-body" style="overflow: scroll">
                 <div class="form-group form-inline justify-content-center">
-                    <label class="mr-2" for="sido"></label>
-                    <select
-                        class="form-control"
-                        id="sido"
-                        v-model="sidoCode"
-                        @change="getGugun(sidoCode)"
-                    >
-                        <option value="" selected>시/도</option>
-                        <option
-                            v-for="(item, index) in sidoList"
-                            :key="index"
-                            :value="item.sidoCode"
-                        >
-                            {{ item.sidoName }}
-                        </option>
-                    </select>
-                    <label class="mr-2 ml-3" for="gugun"></label>
-                    <select
-                        class="form-control"
-                        id="gugun"
-                        v-model="gugunCode"
-                        @change="getDong(gugunCode)"
-                    >
-                        <option value="" selected>구/군</option>
-                        <option
-                            v-for="(item, index) in gugunList"
-                            :key="index"
-                            :value="item.gugunCode"
-                        >
-                            {{ item.gugunName }}
-                        </option>
-                    </select>
-                    <label class="mr-2 ml-3" for="dong"></label>
-                    <select class="form-control" v-model="dongCode" @change="getApt(dongCode)">
-                        <option value="">읍/면/동</option>
-                        <option
-                            v-for="(item, index) in dongList"
-                            :key="index"
-                            :value="item.dongCode"
-                        >
-                            {{ item.dongName }}
-                        </option>
-                    </select>
                     <!-- <button type="button" id="aptSearchBtn">검색</button> -->
 
-                    <label class="mr-2 ml-3" for="favoriteDong">관심지역 추가 </label>
-                    <img
-                        src="@/assets/empty_heart.png"
-                        id="favoriteDong"
-                        alt="Logo"
-                        style="width: 24px; height: 24px; border-radius: 50%"
-                    />
+                    <!-- <label class="mr-2 ml-3" for="favoriteDong">관심지역 추가 </label>
+          <img
+            src="@/assets/empty_heart.png"
+            id="favoriteDong"
+            alt="Logo"
+            style="width: 24px; height: 24px; border-radius: 50%"
+          /> -->
                 </div>
                 <table class="table mt-2 table-hover">
                     <tbody>
@@ -78,6 +75,14 @@
                             </td>
                         </tr>
                     </tbody>
+                    <pagination
+                        :listRowCount="listRowCount"
+                        :pageLinkCount="pageLinkCount"
+                        :currentPageIndex="currentPageIndex"
+                        :totalListItemCount="totalListItemCount"
+                        v-on:call-parent-move-page="movePage"
+                    >
+                    </pagination>
                 </table>
             </div>
         </div>
@@ -90,10 +95,10 @@
 import AptDetailModal from "@/components/modals/AptDetailModal.vue";
 import { Modal } from "bootstrap";
 import http from "@/common/axios.js";
-
+import Pagination from "@/components/Pagination.vue";
 export default {
     name: "SearchApt",
-    components: { AptDetailModal },
+    components: { AptDetailModal, Pagination },
     data() {
         return {
             sidoList: [],
@@ -107,6 +112,11 @@ export default {
             aptDealList: [],
 
             aptDetailModal: null,
+            // pagination
+            listRowCount: 10,
+            pageLinkCount: 10,
+            currentPageIndex: 1,
+            totalListItemCount: 0,
         };
     },
 
@@ -147,25 +157,63 @@ export default {
             this.aptList = data;
         },
 
-        async getAptDetail(aptCode) {
-            try {
-                let { data } = await http.get("/map/apt/" + aptCode);
-                this.aptDealList = data;
-                // console.log(data);
-                // console.log(this.aptDealList);
-                // console.log(aptDealList);
-
-                this.aptDetailModal.show();
-            } catch (error) {
-                console.log("BoardMainVue: error : ");
-                console.log(error);
-            }
+        async created() {
+            let { data } = await http.get("/map/sido");
+            console.log("128 line:" + data);
+            this.sidoList = data;
         },
-    },
-    mounted() {
-        console.log("mounted");
-        this.aptDetailModal = new Modal(document.querySelector("#aptDetailModal"));
-        // console.log(this.aptDetailModal);
+
+        methods: {
+            async getGugun(sidoCode) {
+                const params = { sido: sidoCode };
+
+                let { data } = await http.get("/map/gugun", {
+                    params,
+                });
+
+                this.gugunList = data;
+            },
+            async getDong(gugunCode) {
+                const params = { gugun: gugunCode };
+
+                let { data } = await http.get("/map/dong/", {
+                    params,
+                });
+                this.dongList = data;
+            },
+            async getApt(dongCode) {
+                console.log("dongCode: " + dongCode);
+                const params = {
+                    dong: this.dongCode,
+                    myLng: "128.33171777763386",
+                    myLat: "34.977085999097184",
+                };
+
+                let { data } = await http.get("/map/apt/", { params });
+                console.log(data);
+                this.aptList = data;
+            },
+
+            async getAptDetail(aptCode) {
+                try {
+                    let { data } = await http.get("/map/apt/" + aptCode);
+                    this.aptDealList = data;
+                    // console.log(data);
+                    // console.log(this.aptDealList);
+                    // console.log(aptDealList);
+
+                    this.aptDetailModal.show();
+                } catch (error) {
+                    console.log("BoardMainVue: error : ");
+                    console.log(error);
+                }
+            },
+        },
+        mounted() {
+            console.log("mounted");
+            this.aptDetailModal = new Modal(document.querySelector("#aptDetailModal"));
+            // console.log(this.aptDetailModal);
+        },
     },
 };
 </script>
@@ -285,4 +333,3 @@ ul {
     background-position: 0 -20px;
 }
 </style>
-g

@@ -47,43 +47,11 @@
                         </router-link>
                     </nav>
                 </div>
-                <a
-                    class="nav-link collapsed"
-                    href="#"
-                    data-bs-toggle="collapse"
-                    data-bs-target="#collapsePages"
-                    aria-expanded="false"
-                    aria-controls="collapsePages"
-                >
-                    <div class="sb-nav-link-icon">
-                        <i class="fas fa-book-open"></i>
-                    </div>
+
+                <router-link to="/my-transaction" class="nav-link">
+                    <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
                     은행업무
-                    <div class="sb-sidenav-collapse-arrow">
-                        <!-- <i class="fas fa-angle-down"></i> -->
-                    </div>
-                </a>
-                <div
-                    class="collapse"
-                    id="collapsePages"
-                    aria-labelledby="headingTwo"
-                    data-bs-parent="#sidenavAccordion"
-                >
-                    <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
-                        <router-link to="/my-transaction" class="nav-link">
-                            <div class="sb-nav-link-icon">
-                                <i class="fas fa-tachometer-alt"></i>
-                            </div>
-                            내 거래내역
-                        </router-link>
-                        <router-link to="/banking" class="nav-link">
-                            <div class="sb-nav-link-icon">
-                                <i class="fas fa-tachometer-alt"></i>
-                            </div>
-                            대출/상환/예금
-                        </router-link>
-                    </nav>
-                </div>
+                </router-link>
                 <div class="sb-sidenav-menu-heading">Addons</div>
                 <router-link to="/board" class="nav-link">
                     <div class="sb-nav-link-icon">

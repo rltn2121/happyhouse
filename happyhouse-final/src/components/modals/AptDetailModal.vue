@@ -1,6 +1,6 @@
 <template>
   <div class="modal" tabindex="-1" id="aptDetailModal">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-xl">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title">아파트 거래 정보</h5>
@@ -15,12 +15,10 @@
         <div class="modal-body">
           <div class="row">
             <div class="col">
-              <apt-info
-                :aptDealList="aptDealList"
-                :aptInfoDto="aptInfoDto"
-              ></apt-info>
+              <apt-info :aptInfoDto="aptInfoDto"></apt-info>
             </div>
             <div class="col">
+              <!-- <price-per-area :aptDealList="aptDealList"></price-per-area> -->
               <price-per-area :aptDealList="aptDealList"></price-per-area>
             </div>
           </div>
@@ -29,14 +27,12 @@
               <market :aptDealList="aptDealList"></market>
             </div>
             <div class="col">
-              <div class="col">
-                <reply :aptDealList="aptDealList"> </reply>
-              </div>
+              <history :aptDealList="aptDealList"></history>
             </div>
           </div>
           <div class="row">
             <div class="col">
-              <history :aptDealList="aptDealList"></history>
+              <reply :aptDealList="aptDealList"> </reply>
             </div>
           </div>
         </div>
@@ -89,7 +85,7 @@ export default {
     this.budongsanMarketList = budongsanMarketList;
     this.dealInfoList = dealInfoList;
     this.latestDealInfoList = latestDealInfoList;
-    this.replyList = replyList;
+    // this.replyList = replyList;
     // console.log("this.aptInfoDto");
     // console.log(this.aptInfoDto);
     // console.log(this.budongsanMarketList);
