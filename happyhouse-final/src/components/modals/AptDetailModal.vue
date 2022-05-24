@@ -14,16 +14,30 @@
 
         <div class="modal-body">
           <div class="row">
-            <div class="col"><apt-info></apt-info></div>
-            <div class="col"><price-per-area></price-per-area></div>
+            <div class="col">
+              <apt-info
+                :aptDealList="aptDealList"
+                :aptInfoDto="aptInfoDto"
+              ></apt-info>
+            </div>
+            <div class="col">
+              <price-per-area :aptDealList="aptDealList"></price-per-area>
+            </div>
           </div>
           <div class="row">
-            <div class="col"><market></market></div>
-            <div class="col"></div>
+            <div class="col">
+              <market :aptDealList="aptDealList"></market>
+            </div>
+            <div class="col">
+              <div class="col">
+                <reply :aptDealList="aptDealList"> </reply>
+              </div>
+            </div>
           </div>
           <div class="row">
-            <div class="col"><history></history></div>
-            <div class="col"><reply></reply></div>
+            <div class="col">
+              <history :aptDealList="aptDealList"></history>
+            </div>
           </div>
         </div>
 
@@ -54,10 +68,38 @@ export default {
   props: ["aptDealList"],
   data() {
     return {
-      aptName: "",
+      aptInfoDto: [],
+      budongsanMarketList: [],
+      dealInfoList: [],
+      latestDealInfoList: [],
+      replyList: [],
     };
   },
   created() {},
+  updated() {
+    console.log("aptDetailModalUpdated");
+    let {
+      aptInfoDto,
+      budongsanMarketList,
+      dealInfoList,
+      latestDealInfoList,
+      replyList,
+    } = this.aptDealList;
+    this.aptInfoDto = aptInfoDto;
+    this.budongsanMarketList = budongsanMarketList;
+    this.dealInfoList = dealInfoList;
+    this.latestDealInfoList = latestDealInfoList;
+    this.replyList = replyList;
+    // console.log("this.aptInfoDto");
+    // console.log(this.aptInfoDto);
+    // console.log(this.budongsanMarketList);
+    // console.log(this.dealInfoList);
+    // console.log(this.latestDealInfoList);
+    // console.log(this.replyList);
+  },
+  mounted() {
+    console.log("aptDetailModalMounted");
+  },
 };
 </script>
 

@@ -1,19 +1,18 @@
 <template>
   <div class="container">
     <div class="card mb-4">
-      <div class="card-header">평당 가격</div>
+      <div class="card-header">전용면적당 최신 거래가</div>
       <div class="card-body">
-        <div class="row">
-          <div class="col-4">25평</div>
-          <div class="col-8">7,500</div>
+        <div
+          class="row"
+          v-for="(item, index) in latestDealInfoList"
+          :key="index"
+        >
+          <div class="col-4">{{ item.area }}m²</div>
+          <div class="col-8">{{ item.dealAmount }}만원</div>
         </div>
-        <div class="row">
-          <div class="col-4">27평</div>
-          <div class="col-8">8,600</div>
-        </div>
-        <div class="row">
-          <div class="col-4">30평</div>
-          <div class="col-8">1억</div>
+        <div style="display: none">
+          {{ aptDealList.aptInfoDto.aptName }}
         </div>
       </div>
     </div>
@@ -21,7 +20,21 @@
 </template>
 
 <script>
-export default {};
+export default {
+  props: ["aptDealList"],
+  data() {
+    return {
+      latestDealInfoList: [],
+      name: "",
+    };
+  },
+  created() {},
+  updated() {
+    // console.log("aptInfo.vue updated");
+    let { latestDealInfoList } = this.aptDealList;
+    this.latestDealInfoList = latestDealInfoList;
+  },
+};
 </script>
 
 <style></style>
