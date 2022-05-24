@@ -1,7 +1,8 @@
 <template>
   <div>
-    <div class="container-fluid">
+    <div class="container">
       <h1 class="mt-4 font-weight-bold">은행 업무</h1>
+
       <div class="card mt-4">
         <div class="card-header">
           <div style="display: inline-block; font-weight: bold">
@@ -42,12 +43,19 @@
       </div>
     </div>
 
-    <div class="container-fluid mt-5">
+    <div class="container mt-5">
       <div class="card">
         <div class="card-header">
           <div style="display: inline-block; font-weight: bold">
             대출/상환/예금
           </div>
+          <button
+            @click="createBank()"
+            type="button"
+            class="btn btn-primary ml-3"
+          >
+            계좌 개설
+          </button>
           <div style="display: inline-block; font-weight: bold; float: right">
             MY CASH : {{ asset.cash }}
           </div>
@@ -80,19 +88,14 @@
               <input class="form-control" v-model="price" placeholder="만원" />
             </div>
           </div>
-          <button
-            @click="change()"
-            type="button"
-            class="btn btn-dark float-right m-3"
-          >
-            계산
-          </button>
         </div>
-        <div class="card-footer">
-          <div style="display: inline-block; font-weight: bold; float: right">
-            총 원
-          </div>
-        </div>
+        <button
+          @click="change()"
+          type="button"
+          class="btn btn-dark float-right m-3"
+        >
+          계산
+        </button>
       </div>
     </div>
   </div>
@@ -101,18 +104,22 @@
 <script>
 import http from "@/common/axios.js";
 import jwt_decode from "jwt-decode";
+//import CreateBankModal from "@/components/modals/CreateBankModal.js";
+import { Modal } from "bootstrap";
 
 export default {
   name: "MyTransaction",
   components: {},
   data() {
     return {
+      aptDetailModal: null,
+
       list: [],
       asset: {},
       bankId: "",
       work: "",
       price: "",
-      cmd: "",
+      createBankId: 5,
     };
   },
   methods: {
@@ -218,6 +225,26 @@ export default {
         this.loanCalc();
       } else if (this.work == "예금" || this.work == "출금") {
         this.depositCalc();
+      }
+    },
+    async createBank() {
+      console.log("create");
+
+      let decode_token = jwt_decode(sessionStorage.getItem("access-token"));
+      let userSeq = decode_token.user_seq;
+      console.log(userSeq);
+
+      let obj = {
+        userSeq,
+        bankId: this.createBankId,
+      };
+
+      try {
+        let response = await http.post("/banks/account", obj);
+        let { data } = response;
+        console.log(data);
+      } catch (error) {
+        console.error(error);
       }
     },
   },

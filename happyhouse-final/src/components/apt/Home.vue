@@ -3,9 +3,9 @@
     <h1 class="mt-4 font-weight-bold">아파트 검색</h1>
     <div class="bg-primary"></div>
     <div class="row">
-      <div class="col-5"><search-apt /></div>
+      <div class="col-6"><search-apt /></div>
 
-      <div class="col-7"><kakao-map /></div>
+      <div class="col-6"><kakao-map /></div>
     </div>
   </div>
 </template>
