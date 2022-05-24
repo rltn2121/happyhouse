@@ -1,7 +1,7 @@
 <template>
   <div class="container .bg-primary">
     <div class="card mb-4">
-      <div class="card-header">댓글</div>
+      <div class="card-header"><b>댓글</b></div>
       <div class="card-body">
         <table class="table table-hover">
           <thead>
@@ -12,21 +12,21 @@
           </thead>
           <tbody>
             <tr v-for="(item, index) in replyList" :key="index">
-              <td>{{ item.content }}</td>
-              <td>{{ item.userSeq }}</td>
-              <td> dd              </td>
-              <td> dd               </td>
+              <td>dd</td>
+              <td>dd</td>
+              <td>dd</td>
+              <td>dd</td>
             </tr>
             <tr>
-              <td>dd </td>
               <td>dd</td>
-              <td> dd</td>
-              <td>dd </td>
+              <td>dd</td>
+              <td>dd</td>
+              <td>dd</td>
               </tr>
           </tbody>
-            <!-- <div style="display: none">
+             <!-- <div style="display: none">
               {{ aptDealList.aptInfoDto.aptName }}
-            </div> -->
+            </div>  -->
         </table>
       </div>
     </div>
@@ -42,7 +42,9 @@ export default {
       name: "",
     };
   },
-  created() {},
+  created() {
+    console.log("reply.vue created")
+  },
   updated() {
     // console.log("aptInfo.vue updated");
     let { replyList } = this.aptDealList;

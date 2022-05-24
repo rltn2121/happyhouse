@@ -1,8 +1,10 @@
 <template>
   <div class="container">
-    <div class="row">
-      <div class="col"><my-money></my-money></div>
-      <div class="col"><my-favorite-budongsan></my-favorite-budongsan></div>
+    <h1 class="mt-4 font-weight-bold">Dash Board</h1>
+    <div class="row mt-4">
+      <my-money></my-money>
+
+      <my-favorite-budongsan></my-favorite-budongsan>
     </div>
   </div>
 </template>
@@ -11,7 +13,7 @@
 import MyMoney from "@/components/user/MyMoney.vue";
 import MyFavoriteBudongsan from "@/components/user/MyFavoriteBudongsan.vue";
 export default {
-  compoents: {
+  components: {
     MyMoney,
     MyFavoriteBudongsan,
   },

@@ -1,8 +1,9 @@
 <template>
-  <div>
+  <div class="mt-3">
     <div id="map"></div>
-    <div id="myPosition">
+    <div id="myPosition mt-4">
       <!-- 부트스트랩 primary 버튼 -->
+      <div class="mt-3"></div>
       <button
         type="button"
         class="btn btn-lg btn-primary"
@@ -10,8 +11,10 @@
       >
         내 위치 가져오기
       </button>
-      <p id="myLng">lng</p>
-      <p id="myLat">lat</p>
+      <div style="display: none">
+        <p id="myLng">lng</p>
+        <p id="myLat">lat</p>
+      </div>
     </div>
   </div>
 </template>
@@ -230,6 +233,7 @@ export default {
       // 기존에 마커가 있다면 제거
       marker.setMap(null);
       marker.setMap(map);
+      this.displayMarkers(marker);
     },
 
     locationLoadError(pos) {

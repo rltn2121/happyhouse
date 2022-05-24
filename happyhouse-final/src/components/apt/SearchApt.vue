@@ -1,64 +1,69 @@
 <template>
   <div id="index_section">
-    <div class="card mt-1 left" style="min-height: 850px">
+    <div class="card mt-3 left" style="min-height: 850px">
+      <div class="card-header form-inline">
+        <label class="mr-2" for="sido"></label>
+        <select
+          class="form-control"
+          style="width: 137px"
+          id="sido"
+          v-model="sidoCode"
+          @change="getGugun(sidoCode)"
+        >
+          <option value="" selected>시/도</option>
+          <option
+            v-for="(item, index) in sidoList"
+            :key="index"
+            :value="item.sidoCode"
+          >
+            {{ item.sidoName }}
+          </option>
+        </select>
+        <label class="mr-2 ml-3" for="gugun"></label>
+        <select
+          class="form-control"
+          style="width: 137px"
+          id="gugun"
+          v-model="gugunCode"
+          @change="getDong(gugunCode)"
+        >
+          <option value="" selected>구/군</option>
+          <option
+            v-for="(item, index) in gugunList"
+            :key="index"
+            :value="item.gugunCode"
+          >
+            {{ item.gugunName }}
+          </option>
+        </select>
+        <label class="mr-2 ml-3" for="dong"></label>
+        <select
+          class="form-control"
+          style="width: 137px"
+          v-model="dongCode"
+          @change="getApt(dongCode)"
+        >
+          <option value="">읍/면/동</option>
+          <option
+            v-for="(item, index) in dongList"
+            :key="index"
+            :value="item.dongCode"
+          >
+            {{ item.dongName }}
+          </option>
+        </select>
+      </div>
       <div class="card-body" style="overflow: scroll">
         <div class="form-group form-inline justify-content-center">
-          <label class="mr-2" for="sido"></label>
-          <select
-            class="form-control"
-            id="sido"
-            v-model="sidoCode"
-            @change="getGugun(sidoCode)"
-          >
-            <option value="" selected>시/도</option>
-            <option
-              v-for="(item, index) in sidoList"
-              :key="index"
-              :value="item.sidoCode"
-            >
-              {{ item.sidoName }}
-            </option>
-          </select>
-          <label class="mr-2 ml-3" for="gugun"></label>
-          <select
-            class="form-control"
-            id="gugun"
-            v-model="gugunCode"
-            @change="getDong(gugunCode)"
-          >
-            <option value="" selected>구/군</option>
-            <option
-              v-for="(item, index) in gugunList"
-              :key="index"
-              :value="item.gugunCode"
-            >
-              {{ item.gugunName }}
-            </option>
-          </select>
-          <label class="mr-2 ml-3" for="dong"></label>
-          <select
-            class="form-control"
-            v-model="dongCode"
-            @change="getApt(dongCode)"
-          >
-            <option value="">읍/면/동</option>
-            <option
-              v-for="(item, index) in dongList"
-              :key="index"
-              :value="item.dongCode"
-            >
-              {{ item.dongName }}
-            </option>
-          </select>
           <!-- <button type="button" id="aptSearchBtn">검색</button> -->
 
-          <label class="mr-2 ml-3" for="favoriteDong">관심지역 추가 </label>
+          <!-- <label class="mr-2 ml-3" for="favoriteDong">관심지역 추가 </label>
           <img
             src="@/assets/empty_heart.png"
             id="favoriteDong"
             alt="Logo"
             style="width: 24px; height: 24px; border-radius: 50%"
-          />
+          /> -->
         </div>
         <table class="table mt-2 table-hover">
           <tbody>
@@ -86,6 +91,14 @@
               </td>
             </tr>
           </tbody>
+          <pagination
+            :listRowCount="listRowCount"
+            :pageLinkCount="pageLinkCount"
+            :currentPageIndex="currentPageIndex"
+            :totalListItemCount="totalListItemCount"
+            v-on:call-parent-move-page="movePage"
+          >
+          </pagination>
         </table>
       </div>
     </div>
@@ -98,10 +111,10 @@
 import AptDetailModal from "@/components/modals/AptDetailModal.vue";
 import { Modal } from "bootstrap";
 import http from "@/common/axios.js";
-
+import Pagination from "@/components/Pagination.vue";
 export default {
   name: "SearchApt",
-  components: { AptDetailModal },
+  components: { AptDetailModal, Pagination },
   data() {
     return {
       sidoList: [],
@@ -115,6 +128,11 @@ export default {
       aptDealList: [],
 
       aptDetailModal: null,
+      // pagination
+      listRowCount: 10,
+      pageLinkCount: 10,
+      currentPageIndex: 1,
+      totalListItemCount: 0,
     };
   },
 

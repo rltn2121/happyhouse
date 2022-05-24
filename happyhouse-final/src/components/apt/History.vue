@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="card mb-4">
-      <div class="card-header">거래내역</div>
+      <div class="card-header"><b>거래내역</b></div>
       <div class="card-body">
         <table class="table mt-2 table-hover">
           <thead>

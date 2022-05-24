@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="card mb-4">
-      <div class="card-header">전용면적당 최신 거래가</div>
+      <div class="card-header"><b>전용면적당 최신 거래가</b></div>
       <div class="card-body">
         <div
           class="row"
