@@ -1,20 +1,17 @@
 <template>
-  <div class="mt-3">
-    <div id="map"></div>
-    <div id="myPosition mt-4">
-      <!-- 부트스트랩 primary 버튼 -->
-      <div class="mt-3"></div>
-      <button
-        type="button"
-        class="btn btn-lg btn-primary"
-        @click="getCurrentPosBtn()"
-      >
-        내 위치 가져오기
-      </button>
-      <div style="display: none">
-        <p id="myLng">lng</p>
-        <p id="myLat">lat</p>
-      </div>
+    <div class="mt-3">
+        <div id="map"></div>
+        <div id="myPosition mt-4">
+            <!-- 부트스트랩 primary 버튼 -->
+            <div class="mt-3"></div>
+            <button type="button" class="btn btn-lg btn-primary" @click="getCurrentPosBtn()">
+                내 위치 가져오기
+            </button>
+            <div style="display: none">
+                <p id="myLng">lng</p>
+                <p id="myLat">lat</p>
+            </div>
+        </div>
     </div>
 </template>
 
