@@ -16,87 +16,113 @@ import MainPage from "@/components/MainPage.vue";
 import MyMoney from "@/components/user/MyMoney.vue";
 // https://router.vuejs.org/kr/guide/advanced/navigation-guards.html
 const onlyAuthUser = async (to, from, next) => {
-  // console.log(store);
-  const checkUserInfo = store.getters["memberStore/checkUserInfo"];
-  const getUserInfo = store._actions["memberStore/getUserInfo"];
-  let token = sessionStorage.getItem("access-token");
-  if (checkUserInfo == null && token) {
-    await getUserInfo(token);
-  }
-  if (checkUserInfo === null) {
-    alert("로그인이 필요한 페이지입니다..");
-    next({ name: "signIn" });
-    // router.push({ name: "signIn" });
-  } else {
-    // console.log("로그인 했다.");
-    next();
-  }
+    // console.log(store);
+    const checkUserInfo = store.getters["memberStore/checkUserInfo"];
+    const getUserInfo = store._actions["memberStore/getUserInfo"];
+    let token = sessionStorage.getItem("access-token");
+    if (checkUserInfo == null && token) {
+        await getUserInfo(token);
+    }
+    if (checkUserInfo === null) {
+        alert("로그인이 필요한 페이지입니다..");
+        next({ name: "signIn" });
+        // router.push({ name: "signIn" });
+    } else {
+        // console.log("로그인 했다.");
+        next();
+    }
 };
 export default new VueRouter({
-  routes: [
-    {
-      path: "/",
-      name: "signIn",
-      component: () => import("@/components/user/MemberLogin.vue"),
-    },
-    {
-      name: "User",
-      path: "/test",
-      component: User,
-    },
-    {
-      name: "Board",
-      path: "/board",
-      component: Board,
-    },
-    {
-      name: "Introduce",
-      path: "/introduce",
-      component: Introduce,
-    },
-    {
-      name: "Home",
-      path: "/apt-search",
-      component: Home,
-    },
-    {
-      name: "MyTransaction",
-      path: "/my-transaction",
-      component: MyTransaction,
-    },
-    {
-      name: "Banking",
-      path: "/banking",
-      component: Banking,
-    },
-    {
-      name: "Register",
-      path: "/register",
-      component: Register,
-    },
-    {
-      name: "AptTrade",
-      path: "/apt-trade",
-      component: AptTrade,
-    },
-    {
-      path: "/user",
-      name: "user",
-      component: () => import("@/views/MemberView.vue"),
-    },
-    {
-      path: "/user/signin",
-      name: "signIn",
-      component: () => import("@/components/user/MemberLogin.vue"),
-    },
-    {
-      path: "/main",
-      name: "Main",
-      component: MainPage,
-    },
-    {
-      path: "/my-money",
-      component: MyMoney,
-    },
-  ],
+    routes: [
+        {
+            path: "/",
+            name: "signIn",
+            component: () => import("@/components/user/MemberLogin.vue"),
+        },
+        {
+            name: "User",
+            path: "/test",
+            component: User,
+        },
+        {
+            name: "Board",
+            path: "/board",
+            component: Board,
+        },
+        {
+            name: "Introduce",
+            path: "/introduce",
+            component: Introduce,
+        },
+        {
+            name: "Home",
+            path: "/apt-search",
+            component: Home,
+        },
+        {
+            name: "MyTransaction",
+            path: "/my-transaction",
+            component: MyTransaction,
+        },
+        {
+            name: "Banking",
+            path: "/banking",
+            component: Banking,
+        },
+        {
+            name: "Register",
+            path: "/register",
+            component: Register,
+        },
+        {
+            name: "AptTrade",
+            path: "/apt-trade",
+            component: AptTrade,
+        },
+        {
+            path: "/user/signin",
+            name: "signIn",
+            component: () => import("@/components/user/MemberLogin.vue"),
+        },
+        {
+            path: "/main",
+            name: "Main",
+            component: MainPage,
+        },
+        {
+            path: "/my-money",
+            component: MyMoney,
+        },
+        // {
+        //     path: "/board",
+        //     name: "board",
+        //     component: () => import("@/views/BoardView.vue"),
+        //     redirect: "/board/list",
+        //     children: [
+        //         {
+        //             path: "list",
+        //             name: "boardList",
+        //             component: () => import("@/components/board/BoardList.vue"),
+        //         },
+        //         {
+        //             path: "write",
+        //             name: "boardRegister",
+        //             beforeEnter: onlyAuthUser,
+        //             component: () => import("@/components/board/BoardRegister.vue"),
+        //         },
+        //         {
+        //             path: "detail/:articleno",
+        //             name: "boardDetail",
+        //             beforeEnter: onlyAuthUser,
+        //             component: () => import("@/components/board/BoardDetail.vue"),
+        //         },
+        //         {
+        //             path: "modify/:articleno",
+        //             name: "boardModify",
+        //             beforeEnter: onlyAuthUser,
+        //             component: () => import("@/components/board/BoardModify.vue"),
+        //         },
+        //     ],
+        // },
+    ],
 });
