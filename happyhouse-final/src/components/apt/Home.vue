@@ -3,137 +3,329 @@
     <h1 class="mt-4 font-weight-bold">아파트 검색</h1>
     <div class="bg-primary"></div>
     <div class="row">
-      <div class="col-6"><search-apt /></div>
+      <div class="col-6">
+        <div id="index_section">
+          <div class="card mt-3 left" style="min-height: 850px">
+            <div class="card-header form-inline">
+              <label class="mr-2" for="sido"></label>
+              <select
+                class="form-control"
+                style="width: 137px"
+                id="sido"
+                v-model="sidoCode"
+                @change="getGugun(sidoCode)"
+              >
+                <option value="" selected>시/도</option>
+                <option
+                  v-for="(item, index) in sidoList"
+                  :key="index"
+                  :value="item.sidoCode"
+                >
+                  {{ item.sidoName }}
+                </option>
+              </select>
+              <label class="mr-2 ml-3" for="gugun"></label>
+              <select
+                class="form-control"
+                style="width: 137px"
+                id="gugun"
+                v-model="gugunCode"
+                @change="getDong(gugunCode)"
+              >
+                <option value="" selected>구/군</option>
+                <option
+                  v-for="(item, index) in gugunList"
+                  :key="index"
+                  :value="item.gugunCode"
+                >
+                  {{ item.gugunName }}
+                </option>
+              </select>
+              <label class="mr-2 ml-3" for="dong"></label>
+              <select
+                class="form-control"
+                style="width: 137px"
+                v-model="dongCode"
+                @change="getApt(dongCode)"
+              >
+                <option value="">읍/면/동</option>
+                <option
+                  v-for="(item, index) in dongList"
+                  :key="index"
+                  :value="item.dongCode"
+                >
+                  {{ item.dongName }}
+                </option>
+              </select>
+            </div>
+            <div class="card-body" style="overflow: scroll">
+              <div class="form-group form-inline justify-content-center"></div>
+              <table class="table mt-2 table-hover">
+                <tbody>
+                  <tr
+                    style="cursor: pointer"
+                    v-for="(item, index) in aptList"
+                    :key="index"
+                  >
+                    <td>
+                      <div class="row text-left">
+                        <div
+                          class="col-md-8 h5 font-weight-bold text-primary"
+                          @click="getAptDetail(item.aptCode)"
+                        >
+                          {{ item.aptName }}
+                        </div>
+                        <div
+                          class="col"
+                          @click="
+                            toggleFavorite(
+                              item.aptCode,
+                              item.dongCode,
+                              item.status
+                            )
+                          "
+                        >
+                          <td v-if="item.status == 1">
+                            <img
+                              src="@/assets/warm_heart.png"
+                              alt=""
+                              height="20"
+                            />
+                          </td>
+                          <td v-else>
+                            <img
+                              src="@/assets/empty_heart.png"
+                              alt=""
+                              height="20"
+                            />
+                          </td>
+                        </div>
+                      </div>
+                      <div class="row" @click="getAptDetail(item.aptCode)">
+                        <div class="col-md-8 text-left">
+                          {{ item.sidoName }} {{ item.gugunName }}
+                          {{ item.dongName }} {{ item.jibun }}
+                        </div>
+                        <div class="col-md-4">
+                          <img src="@/assets/marker.png" alt="" />
+                          {{ item.dist.toFixed(2) }}km
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
 
-      <div class="col-6"><kakao-map /></div>
+          <apt-detail-modal :aptCode="aptCode"></apt-detail-modal>
+        </div>
+      </div>
+      <div class="col-6">
+        <div class="mt-3">
+          <div id="map"></div>
+          <div id="myPosition mt-4">
+            <!-- 부트스트랩 primary 버튼 -->
+            <div class="mt-3"></div>
+            <button
+              type="button"
+              class="btn btn-lg btn-primary"
+              @click="getCurrentPosBtn()"
+            >
+              내 위치 가져오기
+            </button>
+            <div style="display: none">
+              <p id="myLng">lng</p>
+              <p id="myLat">lat</p>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import KakaoMap from "./KakaoMap.vue";
-import SearchApt from "./SearchApt.vue";
+import AptDetailModal from "@/components/modals/AptDetailModal.vue";
+import { Modal } from "bootstrap";
+import http from "@/common/axios.js";
+import jwt_decode from "jwt-decode";
+// import Pagination from "@/components/Pagination.vue";
 export default {
-  components: {
-    KakaoMap,
-    SearchApt,
+  name: "Home",
+  components: { AptDetailModal },
+  data() {
+    return {
+      sidoList: [],
+      gugunList: [],
+      dongList: [],
+      aptList: [],
+      sidoCode: "",
+      gugunCode: "",
+      dongCode: "",
+
+      map: null,
+      aptCode: 0,
+      aptDealList: [],
+      markers: [],
+      infowindow: null,
+      latitude: 0,
+      longitude: 0,
+
+      aptDetailModal: null,
+    };
+  },
+
+  async created() {
+    let decode_token = jwt_decode(sessionStorage.getItem("access-token"));
+    let userSeq = decode_token.user_seq;
+    this.userSeq = userSeq;
+    let { data } = await http.get("/map/sido");
+    console.log("128 line:" + data);
+    this.sidoList = data;
+  },
+
+  methods: {
+    async getGugun(sidoCode) {
+      const params = { sido: sidoCode };
+
+      let { data } = await http.get("/map/gugun", {
+        params,
+      });
+
+      this.gugunList = data;
+    },
+    async getDong(gugunCode) {
+      const params = { gugun: gugunCode };
+
+      let { data } = await http.get("/map/dong/", {
+        params,
+      });
+      this.dongList = data;
+    },
+    async getApt(dongCode) {
+      console.log("dongCode: " + dongCode);
+      const params = {
+        dong: this.dongCode,
+        userSeq: this.userSeq,
+        myLng: "128.33171777763386",
+        myLat: "34.977085999097184",
+      };
+
+      let { data } = await http.get("/map/apt/", { params });
+      console.log(data);
+      this.aptList = data;
+      this.displayMarker(this.aptList);
+    },
+
+    async getAptDetail(aptCode) {
+      this.aptCode = aptCode;
+      this.aptDetailModal.show();
+    },
+    async toggleFavorite(aptCode, dongCode, status) {
+      let params = {
+        userSeq: this.userSeq,
+        aptCode,
+      };
+
+      let { data } = await http.put("/favorites", params);
+      if (data == "success") {
+        if (status == 1) {
+          this.$alertify.success("찜 목록에서 제거되었습니다.");
+        } else {
+          this.$alertify.success("찜 목록에서 추가되었습니다.");
+        }
+        this.getApt(dongCode);
+      } else {
+        this.$alertify.error("이미 제거된 항목입니다.");
+      }
+    },
+    initMap() {
+      const container = document.getElementById("map");
+      const options = {
+        center: new kakao.maps.LatLng(33.450701, 126.570667),
+        level: 5,
+      };
+
+      //지도 객체를 등록합니다.
+      //지도 객체는 반응형 관리 대상이 아니므로 initMap에서 선언합니다.
+      this.map = new kakao.maps.Map(container, options);
+    },
+
+    displayMarkers(places) {
+      var fragment = document.createDocumentFragment();
+      var bounds = new kakao.maps.LatLngBounds();
+      var listStr = "";
+
+      // 지도에 표시되고 있는 마커를 제거합니다
+      // removeMarker();
+      for (var i = 0; i < places.length; i++) {
+        var placePosition = new kakao.maps.LatLng(places[i].lat, places[i].lng);
+        var marker = this.addMarker(placePosition, i);
+
+        // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
+        // LatLngBounds 객체에 좌표를 추가합니다
+        bounds.extend(placePosition);
+      }
+
+      // 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
+      this.map.setBounds(bounds);
+    },
+    addMarker(position, idx, title) {
+      var imageSrc =
+          "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_number_blue.png", // 마커 이미지 url, 스프라이트 이미지를 씁니다
+        imageSize = new kakao.maps.Size(36, 37), // 마커 이미지의 크기
+        imgOptions = {
+          spriteSize: new kakao.maps.Size(36, 691), // 스프라이트 이미지의 크기
+          spriteOrigin: new kakao.maps.Point(0, idx * 46 + 10), // 스프라이트 이미지 중 사용할 영역의 좌상단 좌표
+          offset: new kakao.maps.Point(13, 37), // 마커 좌표에 일치시킬 이미지 내에서의 좌표
+        },
+        markerImage = new kakao.maps.MarkerImage(
+          imageSrc,
+          imageSize,
+          imgOptions
+        ),
+        marker = new kakao.maps.Marker({
+          position: position, // 마커의 위치
+          image: markerImage,
+        });
+
+      marker.setMap(map); // 지도 위에 마커를 표출합니다
+      this.markers.push(marker); // 배열에 생성된 마커를 추가합니다
+
+      return marker;
+    },
+  },
+  mounted() {
+    if (window.kakao && window.kakao.maps) {
+      this.initMap();
+    } else {
+      const script = document.createElement("script");
+      /* global kakao */
+      script.onload = () => kakao.maps.load(this.initMap);
+      script.src =
+        "//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=7300a0d50f02823be6fba48f5ace8bf7&libraries=services";
+      document.head.appendChild(script);
+    }
+    console.log("mounted");
+    this.aptDetailModal = new Modal(document.querySelector("#aptDetailModal"));
+    // console.log(this.aptDetailModal);
   },
 };
 </script>
 
-<style>
-#logo {
-  width: 400px;
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style scoped>
+#map {
+  width: 100%;
+  height: 700px;
 }
 
-.overlaybox {
-  position: relative;
-  width: 360px;
-  height: 350px;
-  background: url("https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/box_movie.png")
-    no-repeat;
-  padding: 15px 10px;
+.button-group {
+  margin: 10px 0px;
 }
-.overlaybox div,
-ul {
-  overflow: hidden;
-  margin: 0;
-  padding: 0;
-}
-.overlaybox li {
-  list-style: none;
-}
-.overlaybox .boxtitle {
-  color: #fff;
-  font-size: 16px;
-  font-weight: bold;
-  background: url("https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/arrow_white.png")
-    no-repeat right 120px center;
-  margin-bottom: 8px;
-}
-.overlaybox .first {
-  position: relative;
-  width: 247px;
-  height: 136px;
-  margin-bottom: 8px;
-}
-.first .text {
-  color: #fff;
-  font-weight: bold;
-}
-.first .triangle {
-  position: absolute;
-  width: 48px;
-  height: 48px;
-  top: 0;
-  left: 0;
-  background: url("https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/triangle.png")
-    no-repeat;
-  padding: 6px;
-  font-size: 18px;
-}
-.first .movietitle {
-  position: absolute;
-  width: 100%;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.4);
-  padding: 7px 15px;
-  font-size: 14px;
-}
-.overlaybox ul {
-  width: 247px;
-}
-.overlaybox li {
-  position: relative;
-  margin-bottom: 2px;
-  background: #2b2d36;
-  padding: 5px 10px;
-  color: #aaabaf;
-  line-height: 1;
-}
-.overlaybox li span {
-  display: inline-block;
-}
-.overlaybox li .number {
-  font-size: 16px;
-  font-weight: bold;
-}
-.overlaybox li .title {
-  font-size: 13px;
-}
-.overlaybox li .last {
-  font-size: 12px;
-  margin-right: 15px;
-}
-.overlaybox ul .arrow {
-  position: absolute;
-  margin-top: 8px;
-  right: 25px;
-  width: 5px;
-  height: 3px;
-  background: url("https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/updown.png")
-    no-repeat;
-}
-.overlaybox li .up {
-  background-position: 0 -40px;
-}
-.overlaybox li .down {
-  background-position: 0 -60px;
-}
-.overlaybox li .count {
-  position: absolute;
-  margin-top: 5px;
-  right: 15px;
-  font-size: 10px;
-}
-.overlaybox li:hover {
-  color: #fff;
-  background: #d24545;
-}
-.overlaybox li:hover .up {
-  background-position: 0 0px;
-}
-.overlaybox li:hover .down {
-  background-position: 0 -20px;
+
+button {
+  margin: 0 3px;
 }
 </style>
