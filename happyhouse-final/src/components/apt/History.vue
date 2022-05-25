@@ -17,9 +17,6 @@
                 {{ item.dealYear }}/{{ item.dealMonth }}/{{ item.dealDay }}
               </td>
             </tr>
-            <div style="display: none">
-              {{ aptDealList.aptInfoDto.aptName }}
-            </div>
           </tbody>
         </table>
       </div>
@@ -29,19 +26,12 @@
 
 <script>
 export default {
-  props: ["aptDealList"],
+  props: ["dealInfoList"],
   data() {
-    return {
-      dealInfoList: [],
-      name: "",
-    };
+    return {};
   },
   created() {},
-  updated() {
-    // console.log("aptInfo.vue updated");
-    let { dealInfoList } = this.aptDealList;
-    this.dealInfoList = dealInfoList;
-  },
+  updated() {},
   filters: {
     moneyFormat: function (value) {
       if (!value) return "";

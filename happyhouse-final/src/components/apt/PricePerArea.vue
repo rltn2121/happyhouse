@@ -11,9 +11,6 @@
           <div class="col-4">{{ item.area }}m²</div>
           <div class="col-8">{{ item.dealAmount | moneyFormat }}</div>
         </div>
-        <div style="display: none">
-          {{ aptDealList.aptInfoDto.aptName }}
-        </div>
       </div>
     </div>
   </div>
@@ -21,19 +18,12 @@
 
 <script>
 export default {
-  props: ["aptDealList"],
+  props: ["latestDealInfoList"],
   data() {
-    return {
-      latestDealInfoList: [],
-      name: "",
-    };
+    return {};
   },
   created() {},
-  updated() {
-    // console.log("aptInfo.vue updated");
-    let { latestDealInfoList } = this.aptDealList;
-    this.latestDealInfoList = latestDealInfoList;
-  },
+  updated() {},
   filters: {
     moneyFormat: function (value) {
       if (!value) return "";

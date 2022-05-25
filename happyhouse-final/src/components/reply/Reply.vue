@@ -24,9 +24,7 @@
               <td>dd</td>
               </tr>
           </tbody>
-             <!-- <div style="display: none">
-              {{ aptDealList.aptInfoDto.aptName }}
-            </div>  -->
+
         </table>
       </div>
     </div>
@@ -35,20 +33,23 @@
 
 <script>
 export default {
-  props: ["aptDealList"],
+  props: ["replyList"],
   data() {
     return {
-      replyList: [],
-      name: "",
+
     };
   },
   created() {
-    console.log("reply.vue created")
+
   },
   updated() {
-    // console.log("aptInfo.vue updated");
-    let { replyList } = this.aptDealList;
-    this.replyList = replyList;
+
+  },
+  watch: {
+    replyList: function (newVal, oldVal) {
+      console.log(newVal, oldVal);
+      
+    },
   },
 };
 <style>

@@ -18,21 +18,22 @@
               <apt-info :aptInfoDto="aptInfoDto"></apt-info>
             </div>
             <div class="col">
-              <!-- <price-per-area :aptDealList="aptDealList"></price-per-area> -->
-              <price-per-area :aptDealList="aptDealList"></price-per-area>
+              <price-per-area
+                :latestDealInfoList="latestDealInfoList"
+              ></price-per-area>
             </div>
           </div>
           <div class="row">
             <div class="col">
-              <market :aptDealList="aptDealList"></market>
+              <market :budongsanMarketList="budongsanMarketList"></market>
             </div>
             <div class="col">
-              <history :aptDealList="aptDealList"></history>
+              <history :dealInfoList="dealInfoList"></history>
             </div>
           </div>
           <div class="row">
             <div class="col">
-              <reply :aptDealList="aptDealList"> </reply>
+              <reply :replyList="replyList"> </reply>
             </div>
           </div>
         </div>
@@ -53,48 +54,48 @@ import History from "@/components/apt/History.vue";
 import Reply from "@/components/reply/Reply.vue";
 import PricePerArea from "@/components/apt/PricePerArea.vue";
 import Market from "@/components/apt/Market.vue";
+import http from "@/common/axios.js";
 export default {
-  components: {
-    AptInfo,
-    History,
-    Reply,
-    PricePerArea,
-    Market,
-  },
-  props: ["aptDealList"],
+  components: { AptInfo, History, Reply, PricePerArea, Market },
+  props: ["aptCode"],
   data() {
     return {
-      aptInfoDto: [],
+      aptInfoDto: {},
       budongsanMarketList: [],
       dealInfoList: [],
       latestDealInfoList: [],
       replyList: [],
     };
   },
-  created() {},
-  updated() {
-    console.log("aptDetailModalUpdated");
-    let {
-      aptInfoDto,
-      budongsanMarketList,
-      dealInfoList,
-      latestDealInfoList,
-      replyList,
-    } = this.aptDealList;
-    this.aptInfoDto = aptInfoDto;
-    this.budongsanMarketList = budongsanMarketList;
-    this.dealInfoList = dealInfoList;
-    this.latestDealInfoList = latestDealInfoList;
-    // this.replyList = replyList;
-    // console.log("this.aptInfoDto");
-    // console.log(this.aptInfoDto);
-    // console.log(this.budongsanMarketList);
-    // console.log(this.dealInfoList);
-    // console.log(this.latestDealInfoList);
-    // console.log(this.replyList);
+  async updated() {
+    // console.log("modal created");
+    // this.getAptDetail();
   },
-  mounted() {
-    console.log("aptDetailModalMounted");
+  methods: {
+    async getAptDetail(aptCode) {
+      console.log(aptCode);
+      let { data } = await http.get("/map/apt/" + aptCode);
+
+      this.aptInfoDto = data.aptInfoDto;
+      this.budongsanMarketList = data.budongsanMarketList;
+      this.dealInfoList = data.dealInfoList;
+      this.latestDealInfoList = data.latestDealInfoList;
+      this.replyList = data.replyList;
+
+      // console.log(this.aptInfoDto);
+      // console.log(this.budongsanMarketList);
+      // console.log(this.dealInfoList);
+      // console.log(this.latestDealInfoList);
+      console.log(this.replyList);
+    },
+  },
+  updated() {},
+  mounted() {},
+  watch: {
+    aptCode: function (newVal, oldVal) {
+      // console.log(newVal, oldVal);
+      this.getAptDetail(newVal);
+    },
   },
 };
 </script>

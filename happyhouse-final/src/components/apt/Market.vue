@@ -25,9 +25,6 @@
                 </button>
               </td>
             </tr>
-            <div style="display: none">
-              {{ aptDealList.aptInfoDto.aptName }}
-            </div>
           </tbody>
         </table>
       </div>
@@ -42,19 +39,12 @@ import jwt_decode from "jwt-decode";
 import http from "@/common/axios.js";
 Vue.use(VueAlertify);
 export default {
-  props: ["aptDealList"],
+  props: ["budongsanMarketList"],
   data() {
-    return {
-      budongsanMarketList: [],
-      name: "",
-    };
+    return {};
   },
   created() {},
-  updated() {
-    // console.log("aptInfo.vue updated");
-    let { budongsanMarketList } = this.aptDealList;
-    this.budongsanMarketList = budongsanMarketList;
-  },
+  updated() {},
   methods: {
     async doTrade(marketId, ownerId, bdsId, price) {
       let decode_token = jwt_decode(sessionStorage.getItem("access-token"));
