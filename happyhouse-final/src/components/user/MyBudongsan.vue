@@ -17,7 +17,7 @@
         </thead>
         <tbody>
           <tr
-            v-for="(item, index) in aptList"
+            v-for="(item, index) in BudongsanList"
             :key="index"
             @click="getAptDetail(item.aptCode)"
             style="cursor: pointer"
@@ -26,7 +26,7 @@
             <td>{{ item.address }}</td>
             <td>{{ item.area }}m²</td>
             <td>{{ item.floor }}층</td>
-            <td>{{ item.price }}만원</td>
+            <td>{{ item.price | moneyFormat }}</td>
           </tr>
         </tbody>
       </table>
@@ -39,24 +39,15 @@
 import http from "@/common/axios.js";
 import AptDetailModal from "@/components/modals/AptDetailModal.vue";
 import { Modal } from "bootstrap";
-import jwt_decode from "jwt-decode";
+
 export default {
   name: "SearchApt",
   components: { AptDetailModal },
+  props: ["BudongsanList"],
   data() {
     return {
-      aptList: [],
       aptDealList: [],
     };
-  },
-
-  async created() {
-    let decode_token = jwt_decode(sessionStorage.getItem("access-token"));
-    let userSeq = decode_token.user_seq;
-
-    let { data } = await http.get("/budongsans/" + userSeq);
-    console.log(data);
-    this.aptList = data;
   },
 
   methods: {
@@ -64,10 +55,6 @@ export default {
       try {
         let { data } = await http.get("/map/apt/" + aptCode);
         this.aptDealList = data;
-        // console.log(data);
-        // console.log(this.aptDealList);
-        // console.log(aptDealList);
-
         this.aptDetailModal.show();
       } catch (error) {
         console.log("BoardMainVue: error : ");
@@ -78,7 +65,19 @@ export default {
   mounted() {
     console.log("mounted");
     this.aptDetailModal = new Modal(document.querySelector("#aptDetailModal"));
-    // console.log(this.aptDetailModal);
+  },
+  filters: {
+    moneyFormat: function (value) {
+      if (!value) return "";
+      let eok = Math.floor(value / 10000);
+      let man = value % 10000;
+      return (eok > 0 ? eok + "억 " : "") + man + "만원";
+    },
+  },
+  watch: {
+    BudongsanList: function (newVal, oldVal) {
+      console.log("BudongsanList watch");
+    },
   },
 };
 </script>
