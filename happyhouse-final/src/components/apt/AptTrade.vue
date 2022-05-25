@@ -98,7 +98,7 @@
                 <td>{{ item.address }}</td>
                 <td>{{ item.area }}m²</td>
                 <td>{{ item.floor }}층</td>
-                <td>{{ item.price }}만원</td>
+                <td>{{ item.price | moneyFormat }}</td>
               </tr>
             </tbody>
           </table>
@@ -185,6 +185,14 @@ export default {
     console.log("mounted");
     this.aptDetailModal = new Modal(document.querySelector("#aptDetailModal"));
     // console.log(this.aptDetailModal);
+  },
+  filters: {
+    moneyFormat: function (value) {
+      if (!value) return "";
+      let eok = Math.floor(value / 10000);
+      let man = value % 10000;
+      return (eok > 0 ? eok + "억 " : "") + man + "만원";
+    },
   },
 };
 </script>

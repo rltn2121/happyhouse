@@ -11,8 +11,8 @@
           </thead>
           <tbody>
             <tr v-for="(item, index) in budongsanMarketList" :key="index">
-              <td>{{ item.area }}</td>
-              <td>{{ item.price }}</td>
+              <td>{{ item.area }}m²</td>
+              <td>{{ item.price | moneyFormat }}</td>
               <td>
                 <button
                   type="button"
@@ -77,6 +77,14 @@ export default {
       });
 
       // alert(marketId + " " + ownerId + " " + bdsId + " " + price);
+    },
+  },
+  filters: {
+    moneyFormat: function (value) {
+      if (!value) return "";
+      let eok = Math.floor(value / 10000);
+      let man = value % 10000;
+      return (eok > 0 ? eok + "억 " : "") + man + "만원";
     },
   },
 };

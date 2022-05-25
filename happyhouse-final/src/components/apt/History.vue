@@ -12,7 +12,7 @@
           <tbody>
             <tr v-for="(item, index) in dealInfoList" :key="index">
               <td>{{ item.area }}m²</td>
-              <td>{{ item.dealAmount }}만원</td>
+              <td>{{ item.dealAmount | moneyFormat }}</td>
               <td>
                 {{ item.dealYear }}/{{ item.dealMonth }}/{{ item.dealDay }}
               </td>
@@ -41,6 +41,14 @@ export default {
     // console.log("aptInfo.vue updated");
     let { dealInfoList } = this.aptDealList;
     this.dealInfoList = dealInfoList;
+  },
+  filters: {
+    moneyFormat: function (value) {
+      if (!value) return "";
+      let eok = Math.floor(value / 10000);
+      let man = value % 10000;
+      return (eok > 0 ? eok + "억 " : "") + man + "만원";
+    },
   },
 };
 </script>

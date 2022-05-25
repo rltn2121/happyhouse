@@ -9,7 +9,7 @@
           :key="index"
         >
           <div class="col-4">{{ item.area }}m²</div>
-          <div class="col-8">{{ item.dealAmount }}만원</div>
+          <div class="col-8">{{ item.dealAmount | moneyFormat }}</div>
         </div>
         <div style="display: none">
           {{ aptDealList.aptInfoDto.aptName }}
@@ -33,6 +33,14 @@ export default {
     // console.log("aptInfo.vue updated");
     let { latestDealInfoList } = this.aptDealList;
     this.latestDealInfoList = latestDealInfoList;
+  },
+  filters: {
+    moneyFormat: function (value) {
+      if (!value) return "";
+      let eok = Math.floor(value / 10000);
+      let man = value % 10000;
+      return (eok > 0 ? eok + "억 " : "") + man + "만원";
+    },
   },
 };
 </script>
