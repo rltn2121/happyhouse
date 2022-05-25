@@ -105,7 +105,7 @@
         </div>
       </div>
     </div>
-    <apt-detail-modal :aptDealList="aptDealList"></apt-detail-modal>
+    <apt-detail-modal :aptCode="aptCode"></apt-detail-modal>
   </div>
 </template>
 
@@ -127,6 +127,7 @@ export default {
       gugunCode: "",
       dongCode: "",
       aptList: "",
+      aptCode: 0,
       aptDealList: [],
     };
   },
@@ -169,10 +170,7 @@ export default {
     async getAptDetail(aptCode) {
       try {
         let { data } = await http.get("/map/apt/" + aptCode);
-        this.aptDealList = data;
-        // console.log(data);
-        // console.log(this.aptDealList);
-        // console.log(aptDealList);
+        this.aptCode = aptCode;
 
         this.aptDetailModal.show();
       } catch (error) {

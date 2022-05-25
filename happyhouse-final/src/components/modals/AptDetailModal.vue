@@ -33,7 +33,12 @@
           </div>
           <div class="row">
             <div class="col">
-              <reply :replyList="replyList"> </reply>
+              <reply
+                :replyList="replyList"
+                :aptCode="aptCode"
+                @updateReplyList="getReplyList"
+              >
+              </reply>
             </div>
           </div>
         </div>
@@ -87,6 +92,11 @@ export default {
       // console.log(this.dealInfoList);
       // console.log(this.latestDealInfoList);
       console.log(this.replyList);
+    },
+
+    async getReplyList() {
+      let { data } = await http.get("/reply/" + this.aptCode);
+      this.replyList = data;
     },
   },
   updated() {},
