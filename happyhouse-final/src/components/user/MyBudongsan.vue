@@ -93,7 +93,8 @@ export default {
       } else this.$alertify.error("판매 취소 실패");
     },
     async addMarket(bdsId) {
-      let { data } = await http.post("/budongsans/market/" + bdsId);
+      let params = { bdsId };
+      let { data } = await http.post("/budongsans/market", bdsId);
       if (data == "success") {
         this.$alertify.success("판매 등록 성공");
         this.$emit("update-budongsan-list");
