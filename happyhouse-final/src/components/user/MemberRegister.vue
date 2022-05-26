@@ -85,11 +85,6 @@
                                         </div>
                                     </form>
                                 </div>
-                                <div class="card-footer text-center py-3">
-                                    <div class="small">
-                                        <a href="login.html">Have an account? Go to login</a>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -134,6 +129,7 @@ export default {
                 let response = await http.post("/user/register", obj);
                 let { data } = response;
                 console.log(data);
+                this.$router.push({ name: "signIn" });
             } catch (error) {
                 console.error(error);
             }

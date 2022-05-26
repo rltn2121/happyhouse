@@ -77,18 +77,20 @@
                                         <div class="mt-4 mb-0">
                                             <div class="d-grid">
                                                 <a
-                                                    class="btn btn-primary btn-block"
+                                                    class="btn btn-primary btn-block mb-2"
                                                     href="login.html"
-                                                    >Create Account</a
+                                                    >Update</a
+                                                >
+                                            </div>
+                                            <div class="d-grid">
+                                                <a
+                                                    class="btn btn-danger btn-block"
+                                                    href="login.html"
+                                                    >Withdrawal</a
                                                 >
                                             </div>
                                         </div>
                                     </form>
-                                </div>
-                                <div class="card-footer text-center py-3">
-                                    <div class="small">
-                                        <but>Have an account? Go to login</but>
-                                    </div>
                                 </div>
                             </div>
                         </div>

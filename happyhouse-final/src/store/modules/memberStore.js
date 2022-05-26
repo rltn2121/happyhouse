@@ -13,6 +13,9 @@ const memberStore = {
         checkUserInfo: function (state) {
             return state.userInfo;
         },
+        checkLogin: function (state) {
+            return state.isLogin;
+        },
     },
     mutations: {
         SET_IS_LOGIN: (state, isLogin) => {
