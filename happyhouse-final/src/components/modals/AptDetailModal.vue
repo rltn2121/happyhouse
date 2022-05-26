@@ -70,17 +70,18 @@ export default {
       dealInfoList: [],
       latestDealInfoList: [],
       replyList: [],
+      tempList: [],
     };
   },
   async updated() {
     // console.log("modal created");
-    // this.getAptDetail();
+    this.getAptDetail();
   },
   methods: {
     async getAptDetail(aptCode) {
       console.log(aptCode);
       let { data } = await http.get("/map/apt/" + aptCode);
-
+      this.tempList = data;
       this.aptInfoDto = data.aptInfoDto;
       this.budongsanMarketList = data.budongsanMarketList;
       this.dealInfoList = data.dealInfoList;
@@ -105,6 +106,9 @@ export default {
     aptCode: function (newVal, oldVal) {
       // console.log(newVal, oldVal);
       this.getAptDetail(newVal);
+    },
+    tempList: function (newVal, oldVal) {
+      console.log("tempList watch");
     },
   },
 };
