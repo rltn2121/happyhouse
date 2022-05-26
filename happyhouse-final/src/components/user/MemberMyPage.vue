@@ -55,7 +55,7 @@
                                                         class="form-control"
                                                         id="inputPassword"
                                                         type="text"
-                                                        v-model="userInfo.userid"
+                                                        v-model="userInfo.userpwd"
                                                         disabled
                                                     />
                                                     <label for="inputPassword">Password</label>

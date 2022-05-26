@@ -6,17 +6,14 @@ Vue.use(Vuex);
 
 import houseStore from "@/store/modules/houseStore.js";
 import memberStore from "@/store/modules/memberStore.js";
-import boardStore from "@/store/modules/boardStore.js";
 
 const store = new Vuex.Store({
     modules: {
         memberStore,
         houseStore,
-        boardStore,
     },
     plugins: [
         createPersistedState({
-            // 브라우저 종료시 제거하기 위해 localStorage가 아닌 sessionStorage로 변경. (default: localStorage)
             storage: sessionStorage,
         }),
     ],
