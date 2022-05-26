@@ -35,7 +35,7 @@
             <thead class="thead">
               <tr>
                 <th scope="">총 예금 : {{ asset.deposit | moneyFormat }}</th>
-                <th scope="">총 적금 : {{ asset.loan | moneyFormat }}</th>
+                <th scope="">총 대출 : {{ asset.loan | moneyFormat }}</th>
               </tr>
             </thead>
           </table>
@@ -85,7 +85,10 @@
               <input class="form-control" v-model="price" placeholder="만원" />
             </div>
           </div>
+          <br />
+          ※ 한 은행 당 최대 10억 원까지 대출 가능합니다.
         </div>
+
         <button
           @click="change()"
           type="button"
@@ -172,11 +175,13 @@ export default {
         let { data } = await http.put("/banks/loan", obj);
         console.log(data);
         if (data == "ERR01") {
-          alert("대출한도초과!");
+          this.$alertify.error("대출 한도 초과!");
         } else if (data == "ERR02") {
-          alert("현금부족!");
+          this.$alertify.error("현금 부족!");
         } else if (data == "ERR03") {
-          alert("상환금이 더 많습니다");
+          this.$alertify.error("상환금이 더 많습니다");
+        } else if (data == "ERR05") {
+          this.$alertify.error("해당 은행에 계좌가 존재하지 않습니다.");
         }
         this.boardList();
         this.assetList();
@@ -210,9 +215,11 @@ export default {
         let { data } = response;
         console.log(data);
         if (data == "ERR02") {
-          alert("현금부족!");
+          this.$alertify.error("현금 부족!");
         } else if (data == "ERR04") {
-          alert("출금금액부족!");
+          this.$alertify.error("출금 금액 부족!");
+        } else if (data == "ERR05") {
+          this.$alertify.error("해당 은행에 계좌가 존재하지 않습니다.");
         }
         this.boardList();
         this.assetList();
@@ -228,24 +235,7 @@ export default {
       }
     },
     async createBank() {
-      console.log("create");
       this.createAccountModal.show();
-      let decode_token = jwt_decode(sessionStorage.getItem("access-token"));
-      let userSeq = decode_token.user_seq;
-      console.log(userSeq);
-
-      let obj = {
-        userSeq,
-        bankId: this.bankId,
-      };
-
-      // try {
-      //   let response = await http.post("/banks/account", obj);
-      //   let { data } = response;
-      //   console.log(data);
-      // } catch (error) {
-      //   console.error(error);
-      // }
     },
   },
   created() {
@@ -259,7 +249,7 @@ export default {
   },
   filters: {
     moneyFormat: function (value) {
-      if (!value) return "-";
+      if (value === 0) return value + "원";
       let eok = Math.floor(value / 10000);
       let man = value % 10000;
       return (eok > 0 ? eok + "억 " : "") + man + "만원";
@@ -270,7 +260,7 @@ export default {
 
 <style>
 table {
-  margin: aut;
+  margin: auto;
   text-align: center;
 }
 input::placeholder {

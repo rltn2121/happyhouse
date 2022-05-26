@@ -1,107 +1,113 @@
 <template>
-    <div class="container-fluid">
-        <h1 class="mt-4 font-weight-bold">부동산 매매</h1>
-        <div id="index_section ">
-            <div class="card mt-4 left" style="min-height: 850px">
-                <div class="card-header form-inline">
-                    <label class="mr-2" for="sido"></label>
-                    <select
-                        class="form-control"
-                        style="width: 137px"
-                        id="sido"
-                        v-model="sidoCode"
-                        @change="getGugun(sidoCode)"
-                    >
-                        <option value="" selected>시/도</option>
-                        <option
-                            v-for="(item, index) in sidoList"
-                            :key="index"
-                            :value="item.sidoCode"
-                        >
-                            {{ item.sidoName }}
-                        </option>
-                    </select>
-                    <label class="mr-2 ml-3" for="gugun"></label>
-                    <select
-                        class="form-control"
-                        style="width: 137px"
-                        id="gugun"
-                        v-model="gugunCode"
-                        @change="getDong(gugunCode)"
-                    >
-                        <option value="" selected>구/군</option>
-                        <option
-                            v-for="(item, index) in gugunList"
-                            :key="index"
-                            :value="item.gugunCode"
-                        >
-                            {{ item.gugunName }}
-                        </option>
-                    </select>
-                    <label class="mr-2 ml-3" for="dong"></label>
-                    <select
-                        class="form-control"
-                        style="width: 137px"
-                        v-model="dongCode"
-                        @change="getBudongsanMarket(dongCode)"
-                    >
-                        <option value="">읍/면/동</option>
-                        <option
-                            v-for="(item, index) in dongList"
-                            :key="index"
-                            :value="item.dongCode"
-                        >
-                            {{ item.dongName }}
-                        </option>
-                    </select>
-                    <form
-                        class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0"
-                    >
-                        <div class="input-group">
-                            <input
-                                class="form-control"
-                                type="text"
-                                placeholder="Search for..."
-                                aria-label="Search for..."
-                                aria-describedby="btnNavbarSearch"
-                            />
-                            <button class="btn btn-primary" id="btnNavbarSearch" type="button">
-                                <i class="fas fa-search"></i>
-                            </button>
-                        </div>
-                    </form>
-                </div>
-                <div class="card-body" style="overflow: scroll; max-height: 800px">
-                    <div class="form-group form-inline justify-content-center"></div>
-                    <table class="table table-hover">
-                        <thead class="thead-dark">
-                            <tr>
-                                <th scope="col">아파트이름</th>
-                                <th scope="col">주소</th>
-                                <th scope="col">전용면적</th>
-                                <th scope="col">층</th>
-                                <th scope="col">가격</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr
-                                v-for="(item, index) in aptList"
-                                :key="index"
-                                @click="getAptDetail(item.aptCode)"
-                                style="cursor: pointer"
-                            >
-                                <td>{{ item.aptName }}</td>
-                                <td>{{ item.address }}</td>
-                                <td>{{ item.area }}m²</td>
-                                <td>{{ item.floor }}층</td>
-                                <td>{{ item.price | moneyFormat }}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+  <div class="container-fluid">
+    <h1 class="mt-4 font-weight-bold">부동산 매매</h1>
+    <div id="index_section ">
+      <div class="card mt-4 left" style="min-height: 850px">
+        <div class="card-header form-inline">
+          <label class="mr-2" for="sido"></label>
+          <select
+            class="form-control"
+            style="width: 137px"
+            id="sido"
+            v-model="sidoCode"
+            @change="getGugun(sidoCode)"
+          >
+            <option value="" selected>시/도</option>
+            <option
+              v-for="(item, index) in sidoList"
+              :key="index"
+              :value="item.sidoCode"
+            >
+              {{ item.sidoName }}
+            </option>
+          </select>
+          <label class="mr-2 ml-3" for="gugun"></label>
+          <select
+            class="form-control"
+            style="width: 137px"
+            id="gugun"
+            v-model="gugunCode"
+            @change="getDong(gugunCode)"
+          >
+            <option value="" selected>구/군</option>
+            <option
+              v-for="(item, index) in gugunList"
+              :key="index"
+              :value="item.gugunCode"
+            >
+              {{ item.gugunName }}
+            </option>
+          </select>
+          <label class="mr-2 ml-3" for="dong"></label>
+          <select
+            class="form-control"
+            style="width: 137px"
+            v-model="dongCode"
+            @change="getBudongsanMarket(dongCode)"
+          >
+            <option value="">읍/면/동</option>
+            <option
+              v-for="(item, index) in dongList"
+              :key="index"
+              :value="item.dongCode"
+            >
+              {{ item.dongName }}
+            </option>
+          </select>
+          <div
+            class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0"
+          >
+            <div class="input-group">
+              <input
+                @keyup.enter.prevent="findMarketByAptName()"
+                class="form-control"
+                type="text"
+                placeholder="Search for..."
+                aria-label="Search for..."
+                aria-describedby="btnNavbarSearch"
+                v-model="searchKeyword"
+              />
+              <button
+                class="btn btn-primary"
+                id="btnNavbarSearch"
+                type="button"
+                @click="findMarketByAptName()"
+              >
+                <i class="fas fa-search"></i>
+              </button>
             </div>
+          </div>
         </div>
-        <apt-detail-modal :aptCode="aptCode"></apt-detail-modal>
+        <div class="card-body" style="overflow: scroll; max-height: 800px">
+          <div class="form-group form-inline justify-content-center"></div>
+          <div>낮은 가격 순으로 100개만 표시됩니다.</div>
+          <table class="table table-hover">
+            <thead class="thead-dark">
+              <tr>
+                <th scope="col">아파트이름</th>
+                <th scope="col">주소</th>
+                <th scope="col">전용면적</th>
+                <th scope="col">층</th>
+                <th scope="col">가격</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr
+                v-for="(item, index) in aptList"
+                :key="index"
+                @click="getAptDetail(item.aptCode)"
+                style="cursor: pointer"
+              >
+                <td>{{ item.aptName }}</td>
+                <td>{{ item.address }}</td>
+                <td>{{ item.area }}m²</td>
+                <td>{{ item.floor }}층</td>
+                <td>{{ item.price | moneyFormat }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
 </template>
 
@@ -111,21 +117,38 @@ import AptDetailModal from "@/components/modals/AptDetailModal.vue";
 import { Modal } from "bootstrap";
 import jwt_decode from "jwt-decode";
 export default {
-    name: "SearchApt",
-    components: { AptDetailModal },
-    data() {
-        return {
-            sidoList: [],
-            gugunList: [],
-            dongList: [],
-            aptList: [],
-            sidoCode: "",
-            gugunCode: "",
-            dongCode: "",
-            aptList: "",
-            aptCode: 0,
-            aptDealList: [],
-        };
+  name: "SearchApt",
+  components: { AptDetailModal },
+  data() {
+    return {
+      sidoList: [],
+      gugunList: [],
+      dongList: [],
+      aptList: [],
+      sidoCode: "",
+      gugunCode: "",
+      dongCode: "",
+      aptList: "",
+      aptCode: 0,
+      aptDealList: [],
+      searchKeyword: "",
+    };
+  },
+
+  async created() {
+    let { data } = await http.get("/map/sido");
+    this.sidoList = data;
+  },
+
+  methods: {
+    async getGugun(sidoCode) {
+      const params = { sido: sidoCode };
+
+      let { data } = await http.get("/map/gugun", {
+        params,
+      });
+
+      this.gugunList = data;
     },
 
     async created() {
@@ -175,20 +198,30 @@ export default {
             }
         },
     },
-    mounted() {
-        console.log("mounted");
-        this.aptDetailModal = new Modal(document.querySelector("#aptDetailModal"));
-        // console.log(this.aptDetailModal);
+
+    async findMarketByAptName() {
+      const params = {
+        aptName: this.searchKeyword,
+      };
+      let { data } = await http.get("/budongsans/market/apt", { params });
+      console.log(data);
+      this.aptList = data;
+      this.searchKeyword = "";
     },
-    filters: {
-        moneyFormat: function (value) {
-            if (!value) return "";
-            let eok = Math.floor(value / 10000);
-            let man = value % 10000;
-            return (eok > 0 ? eok + "억 " : "") + man + "만원";
-        },
+  },
+  mounted() {
+    console.log("mounted");
+    this.aptDetailModal = new Modal(document.querySelector("#aptDetailModal"));
+    // console.log(this.aptDetailModal);
+  },
+  filters: {
+    moneyFormat: function (value) {
+      if (!value) return "";
+      let eok = Math.floor(value / 10000);
+      let man = value % 10000;
+      return (eok > 0 ? eok + "억 " : "") + man + "만원";
     },
-};
+}};
 </script>
 
 <style>
@@ -306,4 +339,3 @@ ul {
     background-position: 0 -20px;
 }
 </style>
-g

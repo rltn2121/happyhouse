@@ -1,6 +1,6 @@
 <template>
   <div class="modal" tabindex="-1" id="createAccountModal">
-    <div class="modal-dialog modal-xl">
+    <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title">계좌 개설</h5>
@@ -23,26 +23,22 @@
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td><input type="radio" name="banks" /></td>
-                <td>신한은행</td>
-                <td>10000%</td>
-                <td>0.00001%</td>
-              </tr>
-              <tr>
-                <td><input type="radio" name="banks" /></td>
-                <td>우리은행</td>
-                <td>20000%</td>
-                <td>0.00002%</td>
-              </tr>
-              <tr>
-                <td><input type="radio" name="banks" /></td>
-                <td>하나은행</td>
-                <td>30000%</td>
-                <td>0.00003%</td>
+              <tr v-for="(item, index) in banks" :key="index">
+                <td>
+                  <input
+                    type="radio"
+                    name="banks"
+                    :value="item.bankId"
+                    v-model="bankId"
+                  />
+                </td>
+                <td>{{ item.name }}</td>
+                <td>{{ (item.loanInterest * 100).toFixed(2) }}%</td>
+                <td>{{ (item.depositInterest * 100).toFixed(2) }}%</td>
               </tr>
             </tbody>
           </table>
+          ※ 한 은행 당 하나의 계좌만 개설 가능합니다.
         </div>
 
         <div class="modal-footer">
@@ -62,14 +58,35 @@
 
 <script>
 import http from "@/common/axios.js";
+import jwt_decode from "jwt-decode";
 export default {
   data() {
-    return {};
+    return {
+      banks: [],
+      bankId: 0,
+      userSeq: 0,
+    };
+  },
+  async created() {
+    let { data } = await http.get("/banks");
+    this.banks = data;
+    let decode_token = jwt_decode(sessionStorage.getItem("access-token"));
+    let userSeq = decode_token.user_seq;
+    this.userSeq = userSeq;
   },
   async updated() {},
   methods: {
     async createAccount() {
-      alert("서비스 점검 중입니다.");
+      let params = {
+        userSeq: this.userSeq,
+        bankId: this.bankId,
+      };
+      let { data } = await http.post("/banks/account", JSON.stringify(params));
+      if (data == "fail") {
+        this.$alertify.error("한 은행 당 하나의 계좌만 개설 가능합니다.");
+      } else {
+        this.$alertify.success("계좌 개설이 완료되었습니다.");
+      }
     },
   },
   updated() {},
