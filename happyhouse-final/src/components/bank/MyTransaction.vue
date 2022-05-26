@@ -95,15 +95,19 @@
         </button>
       </div>
     </div>
+    <create-account-modal></create-account-modal>
   </div>
 </template>
 
 <script>
+import CreateAccountModal from "@/components/modals/CreateAccountModal.vue";
+import { Modal } from "bootstrap";
 import http from "@/common/axios.js";
 import jwt_decode from "jwt-decode";
 
 export default {
   name: "MyTransaction",
+  components: { CreateAccountModal },
   data() {
     return {
       list: [],
@@ -111,6 +115,7 @@ export default {
       bankId: "",
       work: "",
       price: "",
+      createAccountModal: null,
     };
   },
   methods: {
@@ -224,7 +229,7 @@ export default {
     },
     async createBank() {
       console.log("create");
-
+      this.createAccountModal.show();
       let decode_token = jwt_decode(sessionStorage.getItem("access-token"));
       let userSeq = decode_token.user_seq;
       console.log(userSeq);
@@ -234,18 +239,23 @@ export default {
         bankId: this.bankId,
       };
 
-      try {
-        let response = await http.post("/banks/account", obj);
-        let { data } = response;
-        console.log(data);
-      } catch (error) {
-        console.error(error);
-      }
+      // try {
+      //   let response = await http.post("/banks/account", obj);
+      //   let { data } = response;
+      //   console.log(data);
+      // } catch (error) {
+      //   console.error(error);
+      // }
     },
   },
   created() {
     this.boardList();
     this.assetList();
+  },
+  mounted() {
+    this.createAccountModal = new Modal(
+      document.querySelector("#createAccountModal")
+    );
   },
   filters: {
     moneyFormat: function (value) {

@@ -4,9 +4,9 @@
     <button @click="updateUserAsset" class="btn btn-primary">시세 갱신</button>
     <p>
       이 버튼을 누르면 1달이 증가합니다. <br />
-      버튼을 한 번 누를 때마다 월급이 350만원씩 들어오고, 부동산 시세가
-      갱신됩니다. <br />
-      버튼을 12번 누를 때마다 은행 대출/예금 이자가 반영됩니다.
+      버튼을 한 번 누를 때마다 <b>월급 350만원</b>이 들어오고,
+      <b>부동산 시세가 갱신</b>됩니다. <br />
+      버튼을 12번 누를 때마다 <b>은행 대출/예금 금리</b>가 반영됩니다.
     </p>
     <div class="row mt-4">
       <my-money :Assets="Assets"></my-money>
