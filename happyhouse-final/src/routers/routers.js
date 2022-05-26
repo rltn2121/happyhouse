@@ -5,12 +5,9 @@ Vue.use(VueRouter);
 
 import Home from "@/components/apt/Home.vue";
 
-import User from "@/components/user/User.vue";
-import Board from "@/components/board/BoardMain.vue";
 import Introduce from "@/components/Introduce.vue";
 import Banking from "@/components/bank/Banking.vue";
 import MyTransaction from "@/components/bank/MyTransaction.vue";
-import Register from "@/components/user/Register.vue";
 import AptTrade from "@/components/apt/AptTrade.vue";
 import MainPage from "@/components/MainPage.vue";
 import MyMoney from "@/components/user/MyMoney.vue";
@@ -36,18 +33,8 @@ export default new VueRouter({
     routes: [
         {
             path: "/",
-            name: "signIn",
-            component: () => import("@/components/user/MemberLogin.vue"),
-        },
-        {
-            name: "User",
-            path: "/test",
-            component: User,
-        },
-        {
-            name: "Board",
-            path: "/board",
-            component: Board,
+            name: "main",
+            component: MainPage,
         },
         {
             name: "Introduce",
@@ -70,11 +57,6 @@ export default new VueRouter({
             component: Banking,
         },
         {
-            name: "Register",
-            path: "/register",
-            component: Register,
-        },
-        {
             name: "AptTrade",
             path: "/apt-trade",
             component: AptTrade,
@@ -85,6 +67,16 @@ export default new VueRouter({
             component: () => import("@/components/user/MemberLogin.vue"),
         },
         {
+            path: "/user/mypage",
+            name: "myPage",
+            component: () => import("@/components/user/MemberMyPage.vue"),
+        },
+        {
+            path: "/user/register",
+            name: "Register",
+            component: () => import("@/components/user/MemberRegister.vue"),
+        },
+        {
             path: "/main",
             name: "Main",
             component: MainPage,
@@ -93,36 +85,26 @@ export default new VueRouter({
             path: "/my-money",
             component: MyMoney,
         },
-        // {
-        //     path: "/board",
-        //     name: "board",
-        //     component: () => import("@/views/BoardView.vue"),
-        //     redirect: "/board/list",
-        //     children: [
-        //         {
-        //             path: "list",
-        //             name: "boardList",
-        //             component: () => import("@/components/board/BoardList.vue"),
-        //         },
-        //         {
-        //             path: "write",
-        //             name: "boardRegister",
-        //             beforeEnter: onlyAuthUser,
-        //             component: () => import("@/components/board/BoardRegister.vue"),
-        //         },
-        //         {
-        //             path: "detail/:articleno",
-        //             name: "boardDetail",
-        //             beforeEnter: onlyAuthUser,
-        //             component: () => import("@/components/board/BoardDetail.vue"),
-        //         },
-        //         {
-        //             path: "modify/:articleno",
-        //             name: "boardModify",
-        //             beforeEnter: onlyAuthUser,
-        //             component: () => import("@/components/board/BoardModify.vue"),
-        //         },
-        //     ],
-        // },
+
+        {
+            path: "/boardList",
+            name: "boardList",
+            component: () => import("@/components/board/BoardList.vue"),
+        },
+        {
+            path: "/boardRegister",
+            name: "boardRegister",
+            component: () => import("@/components/board/BoardRegister.vue"),
+        },
+        {
+            path: "/boardDetail/:articleno",
+            name: "boardDetail",
+            component: () => import("@/components/board/BoardDetail.vue"),
+        },
+        {
+            path: "/boardModify/:articleno",
+            name: "boardModify",
+            component: () => import("@/components/board/BoardModify.vue"),
+        },
     ],
 });

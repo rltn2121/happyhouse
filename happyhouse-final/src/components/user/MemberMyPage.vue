@@ -1,59 +1,102 @@
 <template>
-  <b-container class="mt-4" v-if="userInfo">
-    <b-row>
-      <b-col>
-        <b-alert variant="secondary" show><h3>내정보</h3></b-alert>
-      </b-col>
-    </b-row>
-    <b-row>
-      <b-col></b-col>
-      <b-col cols="8">
-        <b-jumbotron>
-          <template #header>My Page</template>
+    <div id="layoutAuthentication">
+        <div id="layoutAuthentication_content">
+            <main>
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-7">
+                            <div class="card shadow-lg border-0 rounded-lg mt-5">
+                                <div class="card-header">
+                                    <h3 class="text-center font-weight-light my-4">내 정보</h3>
+                                </div>
+                                <div class="card-body">
+                                    <form>
+                                        <div class="row mb-3">
+                                            <div class="col-md-6">
+                                                <div class="form-floating mb-3 mb-md-0">
+                                                    <input
+                                                        class="form-control"
+                                                        id="inputId"
+                                                        type="text"
+                                                        v-model="userInfo.userid"
+                                                        disabled
+                                                    />
+                                                    <label for="inputEmail">ID</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-floating">
+                                                    <input
+                                                        class="form-control"
+                                                        id="inputName"
+                                                        type="text"
+                                                        v-model="userInfo.username"
+                                                        disabled
+                                                    />
+                                                    <label for="inputName">Name</label>
+                                                </div>
+                                            </div>
+                                        </div>
 
-          <template #lead> 내 정보 확인페이지입니다. </template>
-
-          <hr class="my-4" />
-
-          <b-container class="mt-4">
-            <b-row>
-              <b-col cols="2"></b-col>
-              <b-col cols="2" align-self="end">아이디</b-col
-              ><b-col cols="4" align-self="start">{{ userInfo.userid }}</b-col>
-              <b-col cols="2"></b-col>
-            </b-row>
-            <b-row>
-              <b-col cols="2"></b-col>
-              <b-col cols="2" align-self="end">이름</b-col
-              ><b-col cols="4" align-self="start">{{
-                userInfo.username
-              }}</b-col>
-              <b-col cols="2"></b-col>
-            </b-row>
-            <b-row>
-              <b-col cols="2"></b-col>
-              <b-col cols="2" align-self="end">이메일</b-col
-              ><b-col cols="4" align-self="start">{{ userInfo.email }}</b-col>
-              <b-col cols="2"></b-col>
-            </b-row>
-            <b-row>
-              <b-col cols="2"></b-col>
-              <b-col cols="2" align-self="end">가입일</b-col
-              ><b-col cols="4" align-self="start">{{
-                userInfo.joindate
-              }}</b-col>
-              <b-col cols="2"></b-col>
-            </b-row>
-          </b-container>
-          <hr class="my-4" />
-
-          <b-button variant="primary" href="#" class="mr-1">정보수정</b-button>
-          <b-button variant="danger" href="#">회원탈퇴</b-button>
-        </b-jumbotron>
-      </b-col>
-      <b-col></b-col>
-    </b-row>
-  </b-container>
+                                        <div class="form-floating mb-3">
+                                            <input
+                                                class="form-control"
+                                                id="inputEmail"
+                                                type="email"
+                                                v-model="userInfo.email"
+                                                disabled
+                                            />
+                                            <label for="inputEmail">Email address</label>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <div class="col-md-6">
+                                                <div class="form-floating mb-3 mb-md-0">
+                                                    <input
+                                                        class="form-control"
+                                                        id="inputPassword"
+                                                        type="text"
+                                                        v-model="userInfo.userid"
+                                                        disabled
+                                                    />
+                                                    <label for="inputPassword">Password</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-floating mb-3 mb-md-0">
+                                                    <input
+                                                        class="form-control"
+                                                        id="inputJoindate"
+                                                        type="text"
+                                                        v-model="userInfo.joindate"
+                                                        disabled
+                                                    />
+                                                    <label for="inputJoindate">가입일</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="mt-4 mb-0">
+                                            <div class="d-grid">
+                                                <a
+                                                    class="btn btn-primary btn-block"
+                                                    href="login.html"
+                                                    >Create Account</a
+                                                >
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="card-footer text-center py-3">
+                                    <div class="small">
+                                        <but>Have an account? Go to login</but>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
 </template>
 
 <script>
@@ -62,11 +105,11 @@ import { mapState } from "vuex";
 const memberStore = "memberStore";
 
 export default {
-  name: "MemberMyPage",
-  components: {},
-  computed: {
-    ...mapState(memberStore, ["userInfo"]),
-  },
+    name: "MemberMyPage",
+    components: {},
+    computed: {
+        ...mapState(memberStore, ["userInfo"]),
+    },
 };
 </script>
 

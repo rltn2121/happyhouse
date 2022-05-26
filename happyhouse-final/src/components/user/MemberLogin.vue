@@ -16,7 +16,7 @@
                         placeholder="아이디 입력...."
                         @keyup.enter="confirm"
                     />
-                    <label for="userid">Email address</label>
+                    <label for="userid">ID</label>
                 </div>
                 <div class="form-floating mb-3">
                     <input
@@ -70,7 +70,7 @@ export default {
             }
         },
         movePage() {
-            this.$router.push({ name: "signup" });
+            this.$router.push({ name: "Register" });
         },
     },
 };

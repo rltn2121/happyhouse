@@ -3,9 +3,10 @@ import axios from "axios";
 // axios 객체 생성
 function apiInstance() {
     const instance = axios.create({
-        baseURL: "http://localhost:8080/",
+        baseURL: "http://localhost:8080",
         headers: {
             "Content-type": "application/json",
+            "auth-token": sessionStorage.getItem("access-token"),
         },
     });
     return instance;
@@ -13,7 +14,7 @@ function apiInstance() {
 
 function houseInstance() {
     const instance = axios.create({
-        baseURL: "http://localhost:8080/",
+        baseURL: "http://localhost:8080",
         headers: {
             "Content-type": "application/json",
         },

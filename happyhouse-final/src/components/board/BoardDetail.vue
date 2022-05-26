@@ -1,43 +1,67 @@
 <template>
-  <b-container class="bv-example-row mt-3">
-    <b-row>
-      <b-col>
-        <b-alert show><h3>글보기</h3></b-alert>
-      </b-col>
-    </b-row>
-    <b-row class="mb-1">
-      <b-col class="text-left">
-        <b-button variant="outline-primary" @click="listArticle">목록</b-button>
-      </b-col>
-      <b-col class="text-right">
-        <b-button
-          variant="outline-info"
-          size="sm"
-          @click="moveModifyArticle"
-          class="mr-2"
-          >글수정</b-button
-        >
-        <b-button variant="outline-danger" size="sm" @click="deleteArticle"
-          >글삭제</b-button
-        >
-      </b-col>
-    </b-row>
-    <b-row class="mb-1">
-      <b-col>
-        <b-card
-          :header-html="`<h3>${article.articleno}.
-          ${article.subject} [${article.hit}]</h3><div><h6>${article.userid}</div><div>${article.regtime}</h6></div>`"
-          class="mb-2"
-          border-variant="dark"
-          no-body
-        >
-          <b-card-body class="text-left">
-            <div v-html="message"></div>
-          </b-card-body>
-        </b-card>
-      </b-col>
-    </b-row>
-  </b-container>
+    <div class="container">
+        <h1 class="mt-4 font-weight-bold">글보기</h1>
+
+        <div id="index_section ">
+            <div class="card mt-4 left" style="height: 600px">
+                <div class="card-header form-inline">
+                    <div style="display: inline-block float: left; width: 50%;">
+                        <button class="btn btn-primary ml-3" @click="listArticle">목록</button>
+                    </div>
+                    <div style="display: inline-block float: left; width: 50%;">
+                        <button class="btn btn-danger ml-3 float-right" @click="deleteArticle">
+                            글삭제
+                        </button>
+                        <button class="btn btn-primary ml-3 float-right" @click="moveModifyArticle">
+                            글수정
+                        </button>
+                    </div>
+                </div>
+
+                <div class="card-body">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">이름</span>
+                        </div>
+                        <input
+                            v-model="article.userid"
+                            type="text"
+                            class="form-control"
+                            disabled
+                            readonly
+                        />
+                    </div>
+
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">제목</span>
+                        </div>
+                        <input
+                            v-model="article.subject"
+                            type="text"
+                            class="form-control"
+                            disabled
+                            readonly
+                        />
+                    </div>
+
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">내용</span>
+                        </div>
+                        <textarea
+                            v-model="article.content"
+                            class="form-control h-25"
+                            rows="17"
+                            aria-label="With textarea"
+                            disabled
+                            readonly
+                        ></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </template>
 
 <script>
@@ -45,54 +69,57 @@
 import { getArticle, deleteArticle } from "@/api/board";
 
 export default {
-  name: "BoardDetail",
-  data() {
-    return {
-      article: {},
-    };
-  },
-  computed: {
-    message() {
-      if (this.article.content)
-        return this.article.content.split("\n").join("<br>");
-      return "";
+    name: "BoardDetail",
+    data() {
+        return {
+            article: {},
+        };
     },
-  },
-  created() {
-    getArticle(
-      this.$route.params.articleno,
-      (response) => {
-        this.article = response.data;
-      },
-      (error) => {
-        console.log("삭제시 에러발생!!", error);
-      },
-    );
-  },
-  methods: {
-    listArticle() {
-      this.$router.push({ name: "boardList" });
+    computed: {
+        subject() {
+            if (this.article.subject) return this.article.subject.split("\n").join("<br>");
+            return "";
+        },
+        message() {
+            if (this.article.content) return this.article.content.split("\n").join("<br>");
+            return "";
+        },
     },
-    moveModifyArticle() {
-      this.$router.replace({
-        name: "boardModify",
-        params: { articleno: this.article.articleno },
-      });
-      //   this.$router.push({ path: `/board/modify/${this.article.articleno}` });
+    created() {
+        getArticle(
+            this.$route.params.articleno,
+            (response) => {
+                this.article = response.data;
+            },
+            (error) => {
+                console.log("삭제시 에러발생!!", error);
+            }
+        );
     },
-    deleteArticle() {
-      if (confirm("정말로 삭제?")) {
-        deleteArticle(this.article.articleno, () => {
-          this.$router.push({ name: "boardList" });
-        });
-      }
+    methods: {
+        listArticle() {
+            this.$router.push({ name: "boardList" });
+        },
+        moveModifyArticle() {
+            this.$router.replace({
+                name: "boardModify",
+                params: { articleno: this.article.articleno },
+            });
+            //   this.$router.push({ path: `/board/modify/${this.article.articleno}` });
+        },
+        deleteArticle() {
+            if (confirm("정말로 삭제하시겠습니까?")) {
+                deleteArticle(this.article.articleno, () => {
+                    this.$router.push({ name: "boardList" });
+                });
+            }
+        },
     },
-  },
-  // filters: {
-  //   dateFormat(regtime) {
-  //     return moment(new Date(regtime)).format("YY.MM.DD hh:mm:ss");
-  //   },
-  // },
+    // filters: {
+    //   dateFormat(regtime) {
+    //     return moment(new Date(regtime)).format("YY.MM.DD hh:mm:ss");
+    //   },
+    // },
 };
 </script>
 

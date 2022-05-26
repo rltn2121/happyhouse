@@ -1,22 +1,18 @@
 <template>
-  <b-container class="bv-example-row mt-3">
-    <b-row>
-      <b-col>
-        <b-alert show><h3>글수정</h3></b-alert>
-      </b-col>
-    </b-row>
-    <board-input-item type="modify" />
-  </b-container>
+    <div class="container">
+        <h1 class="mt-4 font-weight-bold">글수정</h1>
+        <board-input-item type="modify" />
+    </div>
 </template>
 
 <script>
 import BoardInputItem from "@/components/board/item/BoardInputItem.vue";
 
 export default {
-  name: "BoardModify",
-  components: {
-    BoardInputItem,
-  },
+    name: "BoardModify",
+    components: {
+        BoardInputItem,
+    },
 };
 </script>
 
