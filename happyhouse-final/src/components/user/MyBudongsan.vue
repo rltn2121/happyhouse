@@ -13,20 +13,41 @@
             <th scope="col">전용면적</th>
             <th scope="col">층</th>
             <th scope="col">가격</th>
+            <th scope="col">판매</th>
           </tr>
         </thead>
         <tbody>
           <tr
             v-for="(item, index) in BudongsanList"
             :key="index"
-            @click="getAptDetail(item.aptCode)"
             style="cursor: pointer"
           >
-            <td>{{ item.aptName }}</td>
-            <td>{{ item.address }}</td>
-            <td>{{ item.area }}m²</td>
-            <td>{{ item.floor }}층</td>
-            <td>{{ item.price | moneyFormat }}</td>
+            <td @click="getAptDetail(item.aptCode)">{{ item.aptName }}</td>
+            <td @click="getAptDetail(item.aptCode)">{{ item.address }}</td>
+            <td @click="getAptDetail(item.aptCode)">{{ item.area }}m²</td>
+            <td @click="getAptDetail(item.aptCode)">{{ item.floor }}층</td>
+            <td @click="getAptDetail(item.aptCode)">
+              {{ item.price | moneyFormat }}
+            </td>
+
+            <td v-if="item.status == 1">
+              <button
+                type="button"
+                class="btn btn-danger"
+                @click="deleteMarket(item.marketId)"
+              >
+                판매취소
+              </button>
+            </td>
+            <td v-else>
+              <button
+                type="button"
+                class="btn btn-success"
+                @click="addMarket(item.bdsId)"
+              >
+                판매등록
+              </button>
+            </td>
           </tr>
         </tbody>
       </table>
@@ -39,6 +60,9 @@
 import http from "@/common/axios.js";
 import AptDetailModal from "@/components/modals/AptDetailModal.vue";
 import { Modal } from "bootstrap";
+import Vue from "vue";
+import VueAlertify from "vue-alertify";
+Vue.use(VueAlertify);
 
 export default {
   name: "SearchApt",
@@ -60,6 +84,20 @@ export default {
         console.log("BoardMainVue: error : ");
         console.log(error);
       }
+    },
+    async deleteMarket(marketId) {
+      let { data } = await http.delete("/budongsans/market/" + marketId);
+      if (data == "success") {
+        this.$alertify.success("판매 취소 성공");
+        this.$emit("update-budongsan-list");
+      } else this.$alertify.error("판매 취소 실패");
+    },
+    async addMarket(bdsId) {
+      let { data } = await http.post("/budongsans/market/" + bdsId);
+      if (data == "success") {
+        this.$alertify.success("판매 등록 성공");
+        this.$emit("update-budongsan-list");
+      } else this.$alertify.error("판매 등록 실패");
     },
   },
   mounted() {
@@ -198,4 +236,3 @@ ul {
   background-position: 0 -20px;
 }
 </style>
-g
