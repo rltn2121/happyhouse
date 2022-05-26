@@ -7,13 +7,11 @@
           <thead>
             <th>작성자</th>
             <th>내용</th>
-            <th>평점</th>
           </thead>
           <tbody>
             <tr v-for="(item, index) in replyList" :key="index">
               <td>{{ item.username }}</td>
               <td>{{ item.content }}</td>
-              <td>{{ item.score }}</td>
             </tr>
           </tbody>
         </table>

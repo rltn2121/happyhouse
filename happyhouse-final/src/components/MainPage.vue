@@ -24,6 +24,7 @@ import MyFavoriteApt from "@/components/user/MyFavoriteApt.vue";
 import MyBudongsan from "@/components/user/MyBudongsan.vue";
 import http from "@/common/axios.js";
 import jwt_decode from "jwt-decode";
+
 export default {
   components: {
     MyMoney,
@@ -65,7 +66,12 @@ export default {
 
     async updateUserAsset() {
       // alert(this.userSeq);
-      http.put("/banks/asset/" + this.userSeq);
+      let router = this.$router;
+      http.put("/banks/asset/" + this.userSeq).catch(function (error) {
+        console.log("로그인 안함");
+        router.push({ name: "signIn" });
+      });
+
       this.getUserAssets();
       this.getMyBudongsans();
     },
