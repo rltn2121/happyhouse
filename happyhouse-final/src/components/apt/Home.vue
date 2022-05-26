@@ -152,7 +152,7 @@ import http from "@/common/axios.js";
 import jwt_decode from "jwt-decode";
 // import Pagination from "@/components/Pagination.vue";
 export default {
-  name: "Home",
+  name: "SearchApt",
   components: { AptDetailModal },
   data() {
     return {
@@ -164,8 +164,8 @@ export default {
       gugunCode: "",
       dongCode: "",
 
-      map: null,
       aptCode: 0,
+      map: null,
       aptDealList: [],
       markers: [],
       infowindow: null,
@@ -173,6 +173,15 @@ export default {
       longitude: 0,
 
       aptDetailModal: null,
+      markerPositions2: [
+        [37.499590490909185, 127.0263723554437],
+        [37.499427948430814, 127.02794423197847],
+        [37.498553760499505, 127.02882598822454],
+        [37.497625593121384, 127.02935713582038],
+        [37.49629291770947, 127.02587362608637],
+        [37.49754540521486, 127.02546694890695],
+        [37.49646391248451, 127.02675574250912],
+      ],
     };
   },
 
@@ -252,24 +261,42 @@ export default {
       this.map = new kakao.maps.Map(container, options);
     },
 
-    displayMarkers(places) {
-      var fragment = document.createDocumentFragment();
-      var bounds = new kakao.maps.LatLngBounds();
-      var listStr = "";
-
-      // 지도에 표시되고 있는 마커를 제거합니다
-      // removeMarker();
-      for (var i = 0; i < places.length; i++) {
-        var placePosition = new kakao.maps.LatLng(places[i].lat, places[i].lng);
-        var marker = this.addMarker(placePosition, i);
-
-        // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
-        // LatLngBounds 객체에 좌표를 추가합니다
-        bounds.extend(placePosition);
+    displayMarker(markerPositions2) {
+      // marker가 찍혀있으면 제거하기
+      if (this.markers.length > 0) {
+        this.markers.forEach((marker) => marker.setMap(null));
       }
 
-      // 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
-      this.map.setBounds(bounds);
+      var markerPositions = [];
+      for (var i = 0; i < markerPositions2.length; i++) {
+        markerPositions.push([
+          markerPositions2[i].lat,
+          markerPositions2[i].lng,
+        ]);
+      }
+      console.log(markerPositions2);
+
+      console.log(typeof markerPositions);
+      const positions = markerPositions.map(
+        (position) => new kakao.maps.LatLng(...position)
+      );
+
+      if (positions.length > 0) {
+        this.markers = positions.map(
+          (position) =>
+            new kakao.maps.Marker({
+              map: this.map,
+              position,
+            })
+        );
+
+        const bounds = positions.reduce(
+          (bounds, latlng) => bounds.extend(latlng),
+          new kakao.maps.LatLngBounds()
+        );
+
+        this.map.setBounds(bounds);
+      }
     },
     addMarker(position, idx, title) {
       var imageSrc =
