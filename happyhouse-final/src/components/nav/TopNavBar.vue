@@ -24,14 +24,27 @@
                     ><i class="fas fa-user fa-fw"></i
                 ></a>
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                    <li>
-                        <router-link to="/user/mypage" class="dropdown-item">MyPage</router-link>
-                    </li>
-                    <li>
-                        <router-link to="/user/signin" class="dropdown-item">Login</router-link>
-                    </li>
-                    <li><hr class="dropdown-divider" /></li>
-                    <li><a class="dropdown-item" href="#!">Logout</a></li>
+                    <span v-if="!this.isLogin">
+                        <li>
+                            <router-link to="/user/register" class="dropdown-item"
+                                >Create Account</router-link
+                            >
+                        </li>
+                        <li><hr class="dropdown-divider" /></li>
+                        <li>
+                            <router-link to="/user/signin" class="dropdown-item">Login</router-link>
+                        </li>
+                    </span>
+
+                    <span v-else>
+                        <li>
+                            <router-link to="/user/mypage" class="dropdown-item"
+                                >MyPage</router-link
+                            >
+                        </li>
+                        <li><hr class="dropdown-divider" /></li>
+                        <li><a class="dropdown-item" href="#!">Logout</a></li>
+                    </span>
                 </ul>
             </li>
         </ul>
@@ -39,7 +52,14 @@
 </template>
 
 <script>
-export default {};
+import { mapState } from "vuex";
+
+const memberStore = "memberStore";
+export default {
+    computed: {
+        ...mapState(memberStore, ["isLogin"]),
+    },
+};
 </script>
 
 <style></style>
