@@ -54,29 +54,33 @@
               {{ item.dongName }}
             </option>
           </select>
-          <form
+          <div
             class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0"
           >
             <div class="input-group">
               <input
+                @keyup.enter.prevent="findMarketByAptName()"
                 class="form-control"
                 type="text"
                 placeholder="Search for..."
                 aria-label="Search for..."
                 aria-describedby="btnNavbarSearch"
+                v-model="searchKeyword"
               />
               <button
                 class="btn btn-primary"
                 id="btnNavbarSearch"
                 type="button"
+                @click="findMarketByAptName()"
               >
                 <i class="fas fa-search"></i>
               </button>
             </div>
-          </form>
+          </div>
         </div>
         <div class="card-body" style="overflow: scroll">
           <div class="form-group form-inline justify-content-center"></div>
+          <div>낮은 가격 순으로 100개만 표시됩니다.</div>
           <table class="table table-hover">
             <thead class="thead-dark">
               <tr>
@@ -129,12 +133,12 @@ export default {
       aptList: "",
       aptCode: 0,
       aptDealList: [],
+      searchKeyword: "",
     };
   },
 
   async created() {
     let { data } = await http.get("/map/sido");
-    console.log("128 line:" + data);
     this.sidoList = data;
   },
 
@@ -177,6 +181,16 @@ export default {
         console.log("BoardMainVue: error : ");
         console.log(error);
       }
+    },
+
+    async findMarketByAptName() {
+      const params = {
+        aptName: this.searchKeyword,
+      };
+      let { data } = await http.get("/budongsans/market/apt", { params });
+      console.log(data);
+      this.aptList = data;
+      this.searchKeyword = "";
     },
   },
   mounted() {
