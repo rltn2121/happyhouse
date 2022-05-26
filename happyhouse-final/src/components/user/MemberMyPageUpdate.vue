@@ -76,13 +76,17 @@
                                         </div>
                                         <div class="mt-4 mb-0">
                                             <div class="d-grid">
-                                                <a class="btn btn-primary btn-block mb-2">Update</a>
+                                                <a
+                                                    class="btn btn-primary btn-block mb-2"
+                                                    href="login.html"
+                                                    >Update</a
+                                                >
                                             </div>
                                             <div class="d-grid">
                                                 <a
                                                     class="btn btn-danger btn-block"
-                                                    @click="movePage"
-                                                    >Cancel</a
+                                                    href="login.html"
+                                                    >Withdrawal</a
                                                 >
                                             </div>
                                         </div>
@@ -110,7 +114,7 @@ export default {
     },
     methods: {
         movePage() {
-            this.$router.push({ name: "main" });
+            this.$router.push({ name: "myPageUpdate" });
         },
     },
 };

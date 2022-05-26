@@ -43,7 +43,7 @@
                             >
                         </li>
                         <li><hr class="dropdown-divider" /></li>
-                        <li><a class="dropdown-item" href="#!">Logout</a></li>
+                        <li><a class="dropdown-item" @click="logout">Logout</a></li>
                     </span>
                 </ul>
             </li>
@@ -58,6 +58,14 @@ const memberStore = "memberStore";
 export default {
     computed: {
         ...mapState(memberStore, ["isLogin"]),
+    },
+    methods: {
+        async logout() {
+            sessionStorage.clear();
+            this.$store.commit("SET_IS_LOGIN", false);
+            console.log(isLogin);
+            this.$router.push({ name: "signIn" });
+        },
     },
 };
 </script>
