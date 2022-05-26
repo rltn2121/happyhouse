@@ -325,4 +325,3 @@ ul {
   background-position: 0 -20px;
 }
 </style>
-g
